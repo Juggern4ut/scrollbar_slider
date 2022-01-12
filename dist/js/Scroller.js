@@ -1,58 +1,49 @@
 "use strict";
 var Scroller = /** @class */ (function () {
     function Scroller(selector) {
+        this.lastPageChange = 0;
         this.container = document.querySelector(selector);
         this.items = this.container.children;
     }
     /**
-     * Will calculate the width of a given Element
-     * including horizontal margins
-     * @param slide The slide to calculate the width of
-     * @returns The width of the slide including margins
-     */
-    Scroller.prototype.getTotalWidth = function (slide) {
-        var styles = window.getComputedStyle(slide);
-        return (parseInt(styles.marginRight) +
-            parseInt(styles.marginLeft) +
-            parseInt(styles.width));
-    };
-    /**
-     * Scroll to the next page
+     * Scroll to the previous page, if the current
+     * position is at the end scroll to the first page
      */
     Scroller.prototype.gotoRight = function () {
-        this.goto(false);
+        this.container.scroll(this.getNextPagePosition(), 0);
+        this.lastPageChange = performance.now();
     };
     /**
-     * Scroll to the previous page
+     * Scroll to the previous page, if the current
+     * position is 0 scroll to the last page
      */
     Scroller.prototype.gotoLeft = function () {
-        this.goto(true);
+        this.container.scroll(this.getPrevPagePosition(), 0);
+        this.lastPageChange = performance.now();
     };
     /**
-     * Will scroll the slider either right or left
-     * to the next page, depending on the given parameter
-     * @param left If set to true, the slider will scroll left, and right otherwise
+     * Will calculate the scroll position of the next
+     * page. If the slider is at the very end, will return
+     * 0 so the slider can loop
+     * @returns The scrollPosition of the next page
      */
-    Scroller.prototype.goto = function (left) {
-        if (left === void 0) { left = false; }
-        var firstSlide = this.items[0];
-        var slideWidth = this.getTotalWidth(firstSlide);
-        var pageWidth = this.getElementsPerPage() * slideWidth;
-        var targetPage = left
-            ? Math.floor((this.container.scrollLeft - 1) / pageWidth)
-            : Math.ceil((this.container.scrollLeft + 1) / pageWidth);
-        this.container.scroll(targetPage * pageWidth, 0);
+    Scroller.prototype.getNextPagePosition = function () {
+        var cont = this.container;
+        if (cont.offsetWidth + cont.scrollLeft === cont.scrollWidth)
+            return 0;
+        var tmpPage = Math.ceil((this.container.scrollLeft + 1) / this.container.offsetWidth);
+        return tmpPage * this.container.offsetWidth;
     };
     /**
-     * Will return the number of Elements that can
-     * be simoutaniusly displayed per Page
-     * @returns The number of elements per Page
+     * Will calculate the scroll position of the previous
+     * page. If the slider is at the very beginning, will return
+     * the positon of the last page so the slider can loop
      */
-    Scroller.prototype.getElementsPerPage = function () {
-        var slide = this.items[0];
-        var slideWidth = this.getTotalWidth(slide);
-        var containerWidth = parseInt(window.getComputedStyle(this.container).width);
-        return Math.round(containerWidth / slideWidth);
+    Scroller.prototype.getPrevPagePosition = function () {
+        if (this.container.scrollLeft === 0)
+            return this.container.scrollWidth;
+        var tmpPage = Math.floor((this.container.scrollLeft - 1) / this.container.offsetWidth);
+        return tmpPage * this.container.offsetWidth;
     };
     return Scroller;
 }());

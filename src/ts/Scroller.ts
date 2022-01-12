@@ -1,6 +1,7 @@
 class Scroller {
   container: HTMLElement;
   items: HTMLCollection;
+  lastPageChange: number = 0;
 
   constructor(selector: string) {
     this.container = document.querySelector(selector) as HTMLElement;
@@ -8,60 +9,50 @@ class Scroller {
   }
 
   /**
-   * Will calculate the width of a given Element
-   * including horizontal margins
-   * @param slide The slide to calculate the width of
-   * @returns The width of the slide including margins
+   * Scroll to the previous page, if the current
+   * position is at the end scroll to the first page
    */
-  getTotalWidth(slide: HTMLElement): number {
-    const styles = window.getComputedStyle(slide);
-    return (
-      parseInt(styles.marginRight) +
-      parseInt(styles.marginLeft) +
-      parseInt(styles.width)
+  public gotoRight(): void {
+    this.container.scroll(this.getNextPagePosition(), 0);
+    this.lastPageChange = performance.now();
+  }
+
+  /**
+   * Scroll to the previous page, if the current
+   * position is 0 scroll to the last page
+   */
+  public gotoLeft(): void {
+    this.container.scroll(this.getPrevPagePosition(), 0);
+    this.lastPageChange = performance.now();
+  }
+
+  /**
+   * Will calculate the scroll position of the next
+   * page. If the slider is at the very end, will return
+   * 0 so the slider can loop
+   * @returns The scrollPosition of the next page
+   */
+  private getNextPagePosition(): number {
+    const cont = this.container;
+    if (cont.offsetWidth + cont.scrollLeft === cont.scrollWidth) return 0;
+
+    const tmpPage = Math.ceil(
+      (this.container.scrollLeft + 1) / this.container.offsetWidth
     );
+
+    return tmpPage * this.container.offsetWidth;
   }
 
   /**
-   * Scroll to the next page
+   * Will calculate the scroll position of the previous
+   * page. If the slider is at the very beginning, will return
+   * the positon of the last page so the slider can loop
    */
-  gotoRight(): void {
-    this.goto(false);
-  }
-
-  /**
-   * Scroll to the previous page
-   */
-  gotoLeft(): void {
-    this.goto(true);
-  }
-
-  /**
-   * Will scroll the slider either right or left
-   * to the next page, depending on the given parameter
-   * @param left If set to true, the slider will scroll left, and right otherwise
-   */
-  goto(left: boolean = false) {
-    const firstSlide = this.items[0] as HTMLElement;
-    const slideWidth = this.getTotalWidth(firstSlide);
-    const pageWidth = this.getElementsPerPage() * slideWidth;
-    const targetPage = left
-      ? Math.floor((this.container.scrollLeft - 1) / pageWidth)
-      : Math.ceil((this.container.scrollLeft + 1) / pageWidth);
-    this.container.scroll(targetPage * pageWidth, 0);
-  }
-
-  /**
-   * Will return the number of Elements that can
-   * be simoutaniusly displayed per Page
-   * @returns The number of elements per Page
-   */
-  getElementsPerPage(): number {
-    const slide = this.items[0] as HTMLElement;
-    const slideWidth = this.getTotalWidth(slide);
-    const containerWidth = parseInt(
-      window.getComputedStyle(this.container).width
+  private getPrevPagePosition(): number {
+    if (this.container.scrollLeft === 0) return this.container.scrollWidth;
+    const tmpPage = Math.floor(
+      (this.container.scrollLeft - 1) / this.container.offsetWidth
     );
-    return Math.round(containerWidth / slideWidth);
+    return tmpPage * this.container.offsetWidth;
   }
 }
