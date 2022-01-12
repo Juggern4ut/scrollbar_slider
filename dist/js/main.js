@@ -1,22 +1,22 @@
 "use strict";
 window.onload = function () {
-    window["t"] = new Scroller("#slider");
-    window["u"] = new Scroller("#slider2");
+    var s1 = new Scroller("#slider");
+    var s2 = new Scroller("#slider2");
     var prev = document.querySelector(".prev");
     var next = document.querySelector(".next");
     prev === null || prev === void 0 ? void 0 : prev.addEventListener("click", function () {
-        window["t"].gotoLeft();
+        s1.gotoLeft();
     });
     next === null || next === void 0 ? void 0 : next.addEventListener("click", function () {
-        window["t"].gotoRight();
+        s1.gotoRight();
     });
     var prev2 = document.querySelector(".prev2");
     var next2 = document.querySelector(".next2");
     prev2 === null || prev2 === void 0 ? void 0 : prev2.addEventListener("click", function () {
-        window["u"].gotoLeft();
+        s2.gotoLeft();
     });
     next2 === null || next2 === void 0 ? void 0 : next2.addEventListener("click", function () {
-        window["u"].gotoRight();
+        s2.gotoRight();
     });
 };
 //# sourceMappingURL=main.js.map

@@ -1,7 +1,6 @@
 "use strict";
 var Scroller = /** @class */ (function () {
     function Scroller(selector) {
-        this.lastPageChange = 0;
         this.container = document.querySelector(selector);
         this.items = this.container.children;
     }
@@ -11,7 +10,6 @@ var Scroller = /** @class */ (function () {
      */
     Scroller.prototype.gotoRight = function () {
         this.container.scroll(this.getNextPagePosition(), 0);
-        this.lastPageChange = performance.now();
     };
     /**
      * Scroll to the previous page, if the current
@@ -19,7 +17,6 @@ var Scroller = /** @class */ (function () {
      */
     Scroller.prototype.gotoLeft = function () {
         this.container.scroll(this.getPrevPagePosition(), 0);
-        this.lastPageChange = performance.now();
     };
     /**
      * Will calculate the scroll position of the next
@@ -31,8 +28,8 @@ var Scroller = /** @class */ (function () {
         var cont = this.container;
         if (cont.offsetWidth + cont.scrollLeft === cont.scrollWidth)
             return 0;
-        var tmpPage = Math.ceil((this.container.scrollLeft + 1) / this.container.offsetWidth);
-        return tmpPage * this.container.offsetWidth;
+        var tmpPage = Math.ceil((cont.scrollLeft + 1) / cont.offsetWidth);
+        return tmpPage * cont.offsetWidth;
     };
     /**
      * Will calculate the scroll position of the previous
@@ -40,10 +37,11 @@ var Scroller = /** @class */ (function () {
      * the positon of the last page so the slider can loop
      */
     Scroller.prototype.getPrevPagePosition = function () {
-        if (this.container.scrollLeft === 0)
-            return this.container.scrollWidth;
-        var tmpPage = Math.floor((this.container.scrollLeft - 1) / this.container.offsetWidth);
-        return tmpPage * this.container.offsetWidth;
+        var cont = this.container;
+        if (cont.scrollLeft === 0)
+            return cont.scrollWidth;
+        var tmpPage = Math.floor((cont.scrollLeft - 1) / cont.offsetWidth);
+        return tmpPage * cont.offsetWidth;
     };
     return Scroller;
 }());

@@ -1,7 +1,6 @@
 class Scroller {
   container: HTMLElement;
   items: HTMLCollection;
-  lastPageChange: number = 0;
 
   constructor(selector: string) {
     this.container = document.querySelector(selector) as HTMLElement;
@@ -14,7 +13,6 @@ class Scroller {
    */
   public gotoRight(): void {
     this.container.scroll(this.getNextPagePosition(), 0);
-    this.lastPageChange = performance.now();
   }
 
   /**
@@ -23,7 +21,6 @@ class Scroller {
    */
   public gotoLeft(): void {
     this.container.scroll(this.getPrevPagePosition(), 0);
-    this.lastPageChange = performance.now();
   }
 
   /**
@@ -35,12 +32,8 @@ class Scroller {
   private getNextPagePosition(): number {
     const cont = this.container;
     if (cont.offsetWidth + cont.scrollLeft === cont.scrollWidth) return 0;
-
-    const tmpPage = Math.ceil(
-      (this.container.scrollLeft + 1) / this.container.offsetWidth
-    );
-
-    return tmpPage * this.container.offsetWidth;
+    const tmpPage = Math.ceil((cont.scrollLeft + 1) / cont.offsetWidth);
+    return tmpPage * cont.offsetWidth;
   }
 
   /**
@@ -49,10 +42,9 @@ class Scroller {
    * the positon of the last page so the slider can loop
    */
   private getPrevPagePosition(): number {
-    if (this.container.scrollLeft === 0) return this.container.scrollWidth;
-    const tmpPage = Math.floor(
-      (this.container.scrollLeft - 1) / this.container.offsetWidth
-    );
-    return tmpPage * this.container.offsetWidth;
+    const cont = this.container;
+    if (cont.scrollLeft === 0) return cont.scrollWidth;
+    const tmpPage = Math.floor((cont.scrollLeft - 1) / cont.offsetWidth);
+    return tmpPage * cont.offsetWidth;
   }
 }
