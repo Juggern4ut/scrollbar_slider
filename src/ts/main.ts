@@ -1,9 +1,5 @@
 window.onload = () => {
-  window["t"] = new Scroller("#slider", 4, [
-    { width: 760, slides: 3 },
-    { width: 480, slides: 2 },
-    { width: 320, slides: 1 },
-  ]);
+  window["t"] = new Scroller("#slider");
 
   let prev = document.querySelector(".prev");
   let next = document.querySelector(".next");

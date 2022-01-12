@@ -1,10 +1,6 @@
 "use strict";
 window.onload = function () {
-    window["t"] = new Scroller("#slider", 4, [
-        { width: 760, slides: 3 },
-        { width: 480, slides: 2 },
-        { width: 320, slides: 1 },
-    ]);
+    window["t"] = new Scroller("#slider");
     var prev = document.querySelector(".prev");
     var next = document.querySelector(".next");
     prev === null || prev === void 0 ? void 0 : prev.addEventListener("click", function () {
