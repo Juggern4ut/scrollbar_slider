@@ -1,3 +1,8 @@
+import smoothscroll from "smoothscroll-polyfill";
+import Scroller from "./Scroller";
+
+smoothscroll.polyfill();
+
 window.onload = () => {
   const s1 = new Scroller("#slider");
   const s2 = new Scroller("#slider2");

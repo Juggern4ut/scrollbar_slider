@@ -1,4 +1,4 @@
-class Scroller {
+export default class Scroller {
   container: HTMLElement;
   items: HTMLCollection;
 
@@ -12,7 +12,11 @@ class Scroller {
    * position is at the end scroll to the first page
    */
   public gotoRight(): void {
-    this.container.scroll(this.getNextPagePosition(), 0);
+    this.container.scroll({
+      top: 0,
+      left: this.getNextPagePosition(),
+      behavior: "smooth",
+    });
   }
 
   /**
@@ -20,7 +24,11 @@ class Scroller {
    * position is 0 scroll to the last page
    */
   public gotoLeft(): void {
-    this.container.scroll(this.getPrevPagePosition(), 0);
+    this.container.scroll({
+      top: 0,
+      left: this.getPrevPagePosition(),
+      behavior: "smooth",
+    });
   }
 
   /**
@@ -31,7 +39,7 @@ class Scroller {
    */
   private getNextPagePosition(): number {
     const cont = this.container;
-    if (cont.offsetWidth + cont.scrollLeft === cont.scrollWidth) return 0;
+    if (cont.offsetWidth + cont.scrollLeft > cont.scrollWidth - 100) return 0;
     const tmpPage = Math.ceil((cont.scrollLeft + 1) / cont.offsetWidth);
     return tmpPage * cont.offsetWidth;
   }
@@ -43,7 +51,7 @@ class Scroller {
    */
   private getPrevPagePosition(): number {
     const cont = this.container;
-    if (cont.scrollLeft === 0) return cont.scrollWidth;
+    if (cont.scrollLeft < 100) return cont.scrollWidth;
     const tmpPage = Math.floor((cont.scrollLeft - 1) / cont.offsetWidth);
     return tmpPage * cont.offsetWidth;
   }

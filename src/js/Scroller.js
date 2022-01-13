@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var Scroller = /** @class */ (function () {
     function Scroller(selector) {
         this.container = document.querySelector(selector);
@@ -9,14 +10,22 @@ var Scroller = /** @class */ (function () {
      * position is at the end scroll to the first page
      */
     Scroller.prototype.gotoRight = function () {
-        this.container.scroll(this.getNextPagePosition(), 0);
+        this.container.scroll({
+            top: 0,
+            left: this.getNextPagePosition(),
+            behavior: "smooth",
+        });
     };
     /**
      * Scroll to the previous page, if the current
      * position is 0 scroll to the last page
      */
     Scroller.prototype.gotoLeft = function () {
-        this.container.scroll(this.getPrevPagePosition(), 0);
+        this.container.scroll({
+            top: 0,
+            left: this.getPrevPagePosition(),
+            behavior: "smooth",
+        });
     };
     /**
      * Will calculate the scroll position of the next
@@ -26,7 +35,7 @@ var Scroller = /** @class */ (function () {
      */
     Scroller.prototype.getNextPagePosition = function () {
         var cont = this.container;
-        if (cont.offsetWidth + cont.scrollLeft === cont.scrollWidth)
+        if (cont.offsetWidth + cont.scrollLeft > cont.scrollWidth - 100)
             return 0;
         var tmpPage = Math.ceil((cont.scrollLeft + 1) / cont.offsetWidth);
         return tmpPage * cont.offsetWidth;
@@ -38,11 +47,12 @@ var Scroller = /** @class */ (function () {
      */
     Scroller.prototype.getPrevPagePosition = function () {
         var cont = this.container;
-        if (cont.scrollLeft === 0)
+        if (cont.scrollLeft < 100)
             return cont.scrollWidth;
         var tmpPage = Math.floor((cont.scrollLeft - 1) / cont.offsetWidth);
         return tmpPage * cont.offsetWidth;
     };
     return Scroller;
 }());
+exports.default = Scroller;
 //# sourceMappingURL=Scroller.js.map

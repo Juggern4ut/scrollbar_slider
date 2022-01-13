@@ -5,11 +5,18 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "scss": "node-sass ./src/scss -o ./dist/css -w"
+    "scss": "node-sass ./src/scss -o ./dist/css -w",
+    "webpack": "webpack --mode development ./src/js/main.js -o ./dist/js --watch"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "node-sass": "^7.0.1"
+    "node-sass": "^7.0.1",
+    "smoothscroll-polyfill": "^0.4.4",
+    "webpack": "^5.66.0"
+  },
+  "devDependencies": {
+    "@types/smoothscroll-polyfill": "^0.3.1",
+    "webpack-cli": "^4.9.1"
   }
 }
