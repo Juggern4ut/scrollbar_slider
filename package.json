@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "develop": "concurrently \"npm run scss\" \"npm run tsc\" \"npm run webpack\" \"npm run server\" ",
+    "tsc": "tsc --watch",
+    "server": "live-server ./dist",
     "scss": "node-sass ./src/scss -o ./dist/css -w",
     "webpack": "webpack --mode development ./src/js/main.js -o ./dist/js --watch"
   },
@@ -13,6 +15,7 @@
   "dependencies": {
     "node-sass": "^7.0.1",
     "smoothscroll-polyfill": "^0.4.4",
+    "typescript": "^4.5.4",
     "webpack": "^5.66.0"
   },
   "devDependencies": {

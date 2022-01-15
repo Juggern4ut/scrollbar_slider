@@ -33,6 +33,7 @@ main {
   user-select: none;
   cursor: pointer;
   opacity: 0.9;
+  z-index: 10;
 }
 
 .next,
@@ -48,8 +49,7 @@ main {
   border-top-right-radius: 15px;
 }
 
-#slider,
-#slider2 {
+.slider {
   width: 100%;
   overflow: auto;
   margin: 0 auto;
@@ -58,7 +58,7 @@ main {
   border-bottom: 1px solid #ccc;
   scroll-behavior: smooth;
 
-  div {
+  .slide {
     text-align: center;
     font-size: 100px;
     flex-shrink: 0;
