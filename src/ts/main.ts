@@ -4,28 +4,18 @@ import Scroller from "./Scroller";
 smoothscroll.polyfill();
 
 window.onload = () => {
-  const s1 = new Scroller("#slider");
-  const s2 = new Scroller("#slider2");
-
-  let prev = document.querySelector(".prev");
-  let next = document.querySelector(".next");
-
-  prev?.addEventListener("click", () => {
-    s1.gotoLeft();
+  const prev = document.querySelector(".prev") as HTMLElement;
+  const next = document.querySelector(".next") as HTMLElement;
+  new Scroller("#slider", {
+    desktopClass: "hideScrollbar",
+    prevPageHandler: prev,
+    nextPageHandler: next,
   });
 
-  next?.addEventListener("click", () => {
-    s1.gotoRight();
-  });
-
-  let prev2 = document.querySelector(".prev2");
-  let next2 = document.querySelector(".next2");
-
-  prev2?.addEventListener("click", () => {
-    s2.gotoLeft();
-  });
-
-  next2?.addEventListener("click", () => {
-    s2.gotoRight();
+  const prev2 = document.querySelector(".prev2") as HTMLElement;
+  const next2 = document.querySelector(".next2") as HTMLElement;
+  new Scroller("#slider2", {
+    prevPageHandler: prev2,
+    nextPageHandler: next2,
   });
 };

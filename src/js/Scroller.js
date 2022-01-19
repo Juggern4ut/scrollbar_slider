@@ -1,9 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Scroller = /** @class */ (function () {
-    function Scroller(selector) {
+    function Scroller(selector, options) {
+        var _this = this;
         this.container = document.querySelector(selector);
         this.items = this.container.children;
+        if ((options === null || options === void 0 ? void 0 : options.desktopClass) && window.ontouchstart === undefined) {
+            this.container.classList.add(options.desktopClass);
+        }
+        if (options === null || options === void 0 ? void 0 : options.nextPageHandler) {
+            options.nextPageHandler.addEventListener("click", function () { return _this.gotoRight(); });
+        }
+        if (options === null || options === void 0 ? void 0 : options.prevPageHandler) {
+            options.prevPageHandler.addEventListener("click", function () { return _this.gotoLeft(); });
+        }
     }
     /**
      * Scroll to the previous page, if the current

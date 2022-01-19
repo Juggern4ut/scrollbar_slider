@@ -1,10 +1,27 @@
+interface ScrollerOptions {
+  desktopClass?: string;
+  nextPageHandler?: HTMLElement;
+  prevPageHandler?: HTMLElement;
+}
+
 export default class Scroller {
   container: HTMLElement;
   items: HTMLCollection;
 
-  constructor(selector: string) {
+  constructor(selector: string, options?: ScrollerOptions) {
     this.container = document.querySelector(selector) as HTMLElement;
     this.items = this.container.children;
+    if (options?.desktopClass && window.ontouchstart === undefined) {
+      this.container.classList.add(options.desktopClass);
+    }
+
+    if (options?.nextPageHandler) {
+      options.nextPageHandler.addEventListener("click", () => this.gotoRight());
+    }
+
+    if (options?.prevPageHandler) {
+      options.prevPageHandler.addEventListener("click", () => this.gotoLeft());
+    }
   }
 
   /**
