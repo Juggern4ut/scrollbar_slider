@@ -4,11 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "develop": "concurrently \"npm run scss\" \"npm run tsc\" \"npm run webpack\" \"npm run server\" ",
+    "develop": "concurrently \"npm run scss\" \"npm run tsc\" \"npm run pug\" \"npm run webpack\" \"npm run server\"",
     "tsc": "tsc --watch",
     "server": "live-server ./dist",
     "scss": "node-sass ./src/scss -o ./dist/css -w",
-    "webpack": "webpack --mode development ./src/js/main.js -o ./dist/js --watch"
+    "webpack": "webpack --mode development ./src/js/main.js -o ./dist/js --watch",
+    "pug": "pug -w  ./src/index.pug -o ./dist -P"
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "@types/smoothscroll-polyfill": "^0.3.1",
+    "pug-cli": "^1.0.0-alpha6",
     "webpack-cli": "^4.9.1"
   }
 }

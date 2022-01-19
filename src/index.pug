@@ -1,0 +1,39 @@
+doctype html 
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    link(rel="stylesheet" href="./css/main.css")
+    script(src="./js/main.js") 
+    title Simple vertical Scroller 
+  body 
+    main
+      h1 Simple Vertical Scroller 
+      .container 
+        .button.prev &lt; 
+        .button.next &gt;
+        section.slider#slider 
+          - var n = 0;
+          while n < 10
+            .slide
+              a(href="https://wog.ch")= n++
+      
+      .container
+        .button.prev &lt; 
+        .button.next &gt;
+        section.slider#slider2
+          - var n = 0;
+          while n < 10
+            .slide
+              a(href="https://wog.ch")= n++
+      
+      .container
+        .button.prev &lt; 
+        .button.next &gt;
+        section.slider.slider--single#slider2
+          - var n = 0;
+          while n < 10
+            .slide
+              a(href="https://wog.ch")= n++
+      

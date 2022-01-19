@@ -7,18 +7,17 @@ var smoothscroll_polyfill_1 = __importDefault(require("smoothscroll-polyfill"));
 var Scroller_1 = __importDefault(require("./Scroller"));
 smoothscroll_polyfill_1.default.polyfill();
 window.onload = function () {
-    var prev = document.querySelector(".prev");
-    var next = document.querySelector(".next");
-    new Scroller_1.default("#slider", {
-        desktopClass: "hideScrollbar",
-        prevPageHandler: prev,
-        nextPageHandler: next,
-    });
-    var prev2 = document.querySelector(".prev2");
-    var next2 = document.querySelector(".next2");
-    new Scroller_1.default("#slider2", {
-        prevPageHandler: prev2,
-        nextPageHandler: next2,
+    var sliders = document.querySelectorAll(".slider");
+    sliders.forEach(function (s) {
+        var _a, _b;
+        var slider = s;
+        var prev = (_a = slider.parentElement) === null || _a === void 0 ? void 0 : _a.querySelector(".prev");
+        var next = (_b = slider.parentElement) === null || _b === void 0 ? void 0 : _b.querySelector(".next");
+        new Scroller_1.default(slider, {
+            desktopClass: "hideScrollbar",
+            prevPageHandler: prev,
+            nextPageHandler: next,
+        });
     });
 };
 //# sourceMappingURL=main.js.map

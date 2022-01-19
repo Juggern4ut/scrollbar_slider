@@ -1,10 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Scroller = /** @class */ (function () {
+    /**
+     * Will create a new horizontal slider on the given selector using
+     * the options passed to the constructor
+     * @param selector The selector to find the container of the slider
+     * @param options The options used to build the slider (optional)
+     */
     function Scroller(selector, options) {
         var _this = this;
-        this.container = document.querySelector(selector);
-        this.items = this.container.children;
+        if (typeof selector === "string") {
+            this.container = document.querySelector(selector);
+        }
+        else {
+            this.container = selector;
+        }
         if ((options === null || options === void 0 ? void 0 : options.desktopClass) && window.ontouchstart === undefined) {
             this.container.classList.add(options.desktopClass);
         }
@@ -45,7 +55,7 @@ var Scroller = /** @class */ (function () {
      */
     Scroller.prototype.getNextPagePosition = function () {
         var cont = this.container;
-        if (cont.offsetWidth + cont.scrollLeft > cont.scrollWidth - 100)
+        if (cont.offsetWidth + cont.scrollLeft > cont.scrollWidth - 25)
             return 0;
         var tmpPage = Math.ceil((cont.scrollLeft + 1) / cont.offsetWidth);
         return tmpPage * cont.offsetWidth;
@@ -57,7 +67,7 @@ var Scroller = /** @class */ (function () {
      */
     Scroller.prototype.getPrevPagePosition = function () {
         var cont = this.container;
-        if (cont.scrollLeft < 100)
+        if (cont.scrollLeft < 25)
             return cont.scrollWidth;
         var tmpPage = Math.floor((cont.scrollLeft - 1) / cont.offsetWidth);
         return tmpPage * cont.offsetWidth;

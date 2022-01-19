@@ -1,16 +1,28 @@
 interface ScrollerOptions {
+  /** The class added to the container of the slider but only on non touch devices */
   desktopClass?: string;
-  nextPageHandler?: HTMLElement;
-  prevPageHandler?: HTMLElement;
+  /** A HTMLElement that when clicked will progress the slider to the next slide */
+  nextPageHandler?: HTMLElement | undefined;
+  /** A HTMLElement that when clicked will revert the slider to the previous slide */
+  prevPageHandler?: HTMLElement | undefined;
 }
 
 export default class Scroller {
+  /** The element containing the slider */
   container: HTMLElement;
-  items: HTMLCollection;
 
-  constructor(selector: string, options?: ScrollerOptions) {
-    this.container = document.querySelector(selector) as HTMLElement;
-    this.items = this.container.children;
+  /**
+   * Will create a new horizontal slider on the given selector using
+   * the options passed to the constructor
+   * @param selector The selector to find the container of the slider
+   * @param options The options used to build the slider (optional)
+   */
+  constructor(selector: string | HTMLElement, options?: ScrollerOptions) {
+    if (typeof selector === "string") {
+      this.container = document.querySelector(selector) as HTMLElement;
+    } else {
+      this.container = selector;
+    }
     if (options?.desktopClass && window.ontouchstart === undefined) {
       this.container.classList.add(options.desktopClass);
     }
@@ -56,7 +68,7 @@ export default class Scroller {
    */
   private getNextPagePosition(): number {
     const cont = this.container;
-    if (cont.offsetWidth + cont.scrollLeft > cont.scrollWidth - 100) return 0;
+    if (cont.offsetWidth + cont.scrollLeft > cont.scrollWidth - 25) return 0;
     const tmpPage = Math.ceil((cont.scrollLeft + 1) / cont.offsetWidth);
     return tmpPage * cont.offsetWidth;
   }
@@ -68,7 +80,7 @@ export default class Scroller {
    */
   private getPrevPagePosition(): number {
     const cont = this.container;
-    if (cont.scrollLeft < 100) return cont.scrollWidth;
+    if (cont.scrollLeft < 25) return cont.scrollWidth;
     const tmpPage = Math.floor((cont.scrollLeft - 1) / cont.offsetWidth);
     return tmpPage * cont.offsetWidth;
   }
