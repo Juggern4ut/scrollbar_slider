@@ -8,7 +8,7 @@ body {
   background-color: #dedede;
 }
 
-h1{
+h1 {
   font-size: 50px;
   font-family: sans-serif;
   text-align: center;
@@ -46,15 +46,13 @@ main {
   z-index: 10;
 }
 
-.next,
-.next2 {
+.next {
   right: 0;
   border-bottom-left-radius: 15px;
   border-top-left-radius: 15px;
 }
 
-.prev,
-.prev2 {
+.prev {
   border-bottom-right-radius: 15px;
   border-top-right-radius: 15px;
 }
@@ -110,6 +108,12 @@ main {
     .slide {
       width: 100%;
       margin: 0;
+    }
+  }
+
+  &--partial{
+    .slide{
+      width: calc(45% - 40px);
     }
   }
 }

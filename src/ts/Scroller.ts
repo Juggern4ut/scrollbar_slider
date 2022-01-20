@@ -41,11 +41,14 @@ export default class Scroller {
    * position is at the end scroll to the first page
    */
   public gotoRight(): void {
-    this.container.scroll({
-      top: 0,
-      left: this.getNextPagePosition(),
-      behavior: "smooth",
-    });
+    const isAtEnd = this.checkIfEndStartReached().isAtEnd;
+    if (isAtEnd) return this.gotoElement(0);
+
+    const closest = this.getClosestElement().index;
+    const elementsPP = this.getElementPerPageAmount();
+    const currentPage = Math.floor(closest / elementsPP) * elementsPP;
+
+    this.gotoElement(currentPage + elementsPP);
   }
 
   /**
@@ -53,35 +56,85 @@ export default class Scroller {
    * position is 0 scroll to the last page
    */
   public gotoLeft(): void {
+    const isAtStart = this.checkIfEndStartReached().isAtStart;
+    if (isAtStart) return this.gotoElement(this.container.children.length - 1);
+
+    const closest = this.getClosestElement().index;
+    const elementsPP = this.getElementPerPageAmount();
+    const currentPage = Math.ceil(closest / elementsPP) * elementsPP;
+
+    this.gotoElement(currentPage - elementsPP);
+  }
+
+  /**
+   * Will calculate the amount of elements that can be shown in the
+   * scroller simoutaniusly
+   * @returns The number of elements that completely fit into a slide
+   */
+  private getElementPerPageAmount(): number {
+    const firstElement = this.container.children[0] as HTMLElement;
+    const style = window.getComputedStyle(firstElement);
+    const margins = parseInt(style.marginLeft) + parseInt(style.marginRight);
+    const totalSlideWidth = firstElement.offsetWidth + margins;
+    return Math.floor(this.container.offsetWidth / totalSlideWidth);
+  }
+
+  /**
+   * Will advance the slider to a given element or index
+   * @param el The element (or index) to advance to
+   */
+  private gotoElement(el: HTMLElement | number): void {
+    if (typeof el === "number") {
+      el = this.container.children[el] as HTMLElement;
+    }
+
+    const style = window.getComputedStyle(el);
     this.container.scroll({
       top: 0,
-      left: this.getPrevPagePosition(),
+      left: el.offsetLeft - parseFloat(style.marginLeft),
       behavior: "smooth",
     });
   }
 
   /**
-   * Will calculate the scroll position of the next
-   * page. If the slider is at the very end, will return
-   * 0 so the slider can loop
-   * @returns The scrollPosition of the next page
+   * Will check if the slideshow currently is at the very end
+   * or beginning and return an object containing two booleans
+   * @returns An object containing two booleans indicating weather the start or end of the slideshow has been reached
    */
-  private getNextPagePosition(): number {
-    const cont = this.container;
-    if (cont.offsetWidth + cont.scrollLeft > cont.scrollWidth - 25) return 0;
-    const tmpPage = Math.ceil((cont.scrollLeft + 1) / cont.offsetWidth);
-    return tmpPage * cont.offsetWidth;
+  private checkIfEndStartReached(): { isAtStart: boolean; isAtEnd: boolean } {
+    const scrollLeft = this.container.scrollLeft;
+    const offsetWidth = this.container.offsetWidth;
+    const scrollWidth = this.container.scrollWidth;
+
+    return {
+      isAtStart: scrollLeft === 0,
+      isAtEnd: scrollLeft + offsetWidth >= scrollWidth,
+    };
   }
 
   /**
-   * Will calculate the scroll position of the previous
-   * page. If the slider is at the very beginning, will return
-   * the positon of the last page so the slider can loop
+   * Will return the index of the slide that is currently
+   * the closest to the left border of the Slideshow
+   * @returns The index of calculated slide
    */
-  private getPrevPagePosition(): number {
-    const cont = this.container;
-    if (cont.scrollLeft < 25) return cont.scrollWidth;
-    const tmpPage = Math.floor((cont.scrollLeft - 1) / cont.offsetWidth);
-    return tmpPage * cont.offsetWidth;
+  private getClosestElement(): { index: number; el: HTMLElement } {
+    const scrollLeft = this.container.scrollLeft;
+    const children = this.container.children;
+    let delta = Number.MAX_SAFE_INTEGER;
+    let closestSlide: number = 0;
+
+    for (let i = 0; i < children.length; i++) {
+      const child = this.container.children[i] as HTMLElement;
+      const tmpDelta = Math.abs(scrollLeft - child.offsetLeft);
+      if (tmpDelta < delta) {
+        delta = tmpDelta;
+        closestSlide = i;
+      }
+    }
+
+    return {
+      index: closestSlide,
+      el: this.container.children[closestSlide] as HTMLElement,
+    };
   }
 }

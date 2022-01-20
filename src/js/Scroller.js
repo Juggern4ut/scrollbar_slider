@@ -30,47 +30,90 @@ var Scroller = /** @class */ (function () {
      * position is at the end scroll to the first page
      */
     Scroller.prototype.gotoRight = function () {
-        this.container.scroll({
-            top: 0,
-            left: this.getNextPagePosition(),
-            behavior: "smooth",
-        });
+        var isAtEnd = this.checkIfEndStartReached().isAtEnd;
+        if (isAtEnd)
+            return this.gotoElement(0);
+        var closest = this.getClosestElement().index;
+        var elementsPP = this.getElementPerPageAmount();
+        var currentPage = Math.floor(closest / elementsPP) * elementsPP;
+        this.gotoElement(currentPage + elementsPP);
     };
     /**
      * Scroll to the previous page, if the current
      * position is 0 scroll to the last page
      */
     Scroller.prototype.gotoLeft = function () {
+        var isAtStart = this.checkIfEndStartReached().isAtStart;
+        if (isAtStart)
+            return this.gotoElement(this.container.children.length - 1);
+        var closest = this.getClosestElement().index;
+        var elementsPP = this.getElementPerPageAmount();
+        var currentPage = Math.ceil(closest / elementsPP) * elementsPP;
+        this.gotoElement(currentPage - elementsPP);
+    };
+    /**
+     * Will calculate the amount of elements that can be shown in the
+     * scroller simoutaniusly
+     * @returns The number of elements that completely fit into a slide
+     */
+    Scroller.prototype.getElementPerPageAmount = function () {
+        var firstElement = this.container.children[0];
+        var style = window.getComputedStyle(firstElement);
+        var margins = parseInt(style.marginLeft) + parseInt(style.marginRight);
+        var totalSlideWidth = firstElement.offsetWidth + margins;
+        return Math.floor(this.container.offsetWidth / totalSlideWidth);
+    };
+    /**
+     * Will advance the slider to a given element or index
+     * @param el The element (or index) to advance to
+     */
+    Scroller.prototype.gotoElement = function (el) {
+        if (typeof el === "number") {
+            el = this.container.children[el];
+        }
+        var style = window.getComputedStyle(el);
         this.container.scroll({
             top: 0,
-            left: this.getPrevPagePosition(),
+            left: el.offsetLeft - parseFloat(style.marginLeft),
             behavior: "smooth",
         });
     };
     /**
-     * Will calculate the scroll position of the next
-     * page. If the slider is at the very end, will return
-     * 0 so the slider can loop
-     * @returns The scrollPosition of the next page
+     * Will check if the slideshow currently is at the very end
+     * or beginning and return an object containing two booleans
+     * @returns An object containing two booleans indicating weather the start or end of the slideshow has been reached
      */
-    Scroller.prototype.getNextPagePosition = function () {
-        var cont = this.container;
-        if (cont.offsetWidth + cont.scrollLeft > cont.scrollWidth - 25)
-            return 0;
-        var tmpPage = Math.ceil((cont.scrollLeft + 1) / cont.offsetWidth);
-        return tmpPage * cont.offsetWidth;
+    Scroller.prototype.checkIfEndStartReached = function () {
+        var scrollLeft = this.container.scrollLeft;
+        var offsetWidth = this.container.offsetWidth;
+        var scrollWidth = this.container.scrollWidth;
+        return {
+            isAtStart: scrollLeft === 0,
+            isAtEnd: scrollLeft + offsetWidth >= scrollWidth,
+        };
     };
     /**
-     * Will calculate the scroll position of the previous
-     * page. If the slider is at the very beginning, will return
-     * the positon of the last page so the slider can loop
+     * Will return the index of the slide that is currently
+     * the closest to the left border of the Slideshow
+     * @returns The index of calculated slide
      */
-    Scroller.prototype.getPrevPagePosition = function () {
-        var cont = this.container;
-        if (cont.scrollLeft < 25)
-            return cont.scrollWidth;
-        var tmpPage = Math.floor((cont.scrollLeft - 1) / cont.offsetWidth);
-        return tmpPage * cont.offsetWidth;
+    Scroller.prototype.getClosestElement = function () {
+        var scrollLeft = this.container.scrollLeft;
+        var children = this.container.children;
+        var delta = Number.MAX_SAFE_INTEGER;
+        var closestSlide = 0;
+        for (var i = 0; i < children.length; i++) {
+            var child = this.container.children[i];
+            var tmpDelta = Math.abs(scrollLeft - child.offsetLeft);
+            if (tmpDelta < delta) {
+                delta = tmpDelta;
+                closestSlide = i;
+            }
+        }
+        return {
+            index: closestSlide,
+            el: this.container.children[closestSlide],
+        };
     };
     return Scroller;
 }());

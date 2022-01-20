@@ -39,14 +39,12 @@ main {
   opacity: 0.9;
   z-index: 10; }
 
-.next,
-.next2 {
+.next {
   right: 0;
   border-bottom-left-radius: 15px;
   border-top-left-radius: 15px; }
 
-.prev,
-.prev2 {
+.prev {
   border-bottom-right-radius: 15px;
   border-top-right-radius: 15px; }
 
@@ -88,6 +86,8 @@ main {
   .slider--single .slide {
     width: 100%;
     margin: 0; }
+  .slider--partial .slide {
+    width: calc(45% - 40px); }
 
 .hideScrollbar {
   -ms-overflow-style: none;
