@@ -14,15 +14,14 @@ export default class Scroller {
   /**
    * Will create a new horizontal slider on the given selector using
    * the options passed to the constructor
-   * @param selector The selector to find the container of the slider
+   * @param sel The selector to find the container of the slider
    * @param options The options used to build the slider (optional)
    */
-  constructor(selector: string | HTMLElement, options?: ScrollerOptions) {
-    if (typeof selector === "string") {
-      this.container = document.querySelector(selector) as HTMLElement;
-    } else {
-      this.container = selector;
-    }
+  constructor(sel: string | HTMLElement, options?: ScrollerOptions) {
+    if (typeof sel === "string")
+      this.container = document.querySelector(sel) as HTMLElement;
+    else this.container = sel;
+
     if (options?.desktopClass && window.ontouchstart === undefined) {
       this.container.classList.add(options.desktopClass);
     }
