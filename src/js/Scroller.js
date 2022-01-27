@@ -102,6 +102,8 @@ var Scroller = /** @class */ (function () {
         if (typeof el === "number") {
             el = this.container.children[el];
         }
+        if (!el)
+            return;
         var style = window.getComputedStyle(el);
         this.container.scroll({
             top: 0,
