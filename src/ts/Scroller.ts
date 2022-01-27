@@ -5,11 +5,17 @@ interface ScrollerOptions {
   nextPageHandler?: HTMLElement | undefined;
   /** A HTMLElement that when clicked will revert the slider to the previous slide */
   prevPageHandler?: HTMLElement | undefined;
+  /** After the given amount of milliseconds wil automatically advance to next slide. Disable with 0 */
+  autoplay?: number;
 }
 
 export default class Scroller {
   /** The element containing the slider */
   container: HTMLElement;
+  /** The interval responsible for autoplay */
+  autoplayInterval: number = 0;
+  /** The amount of milliseconds between autoplaying slides */
+  autoplayDuration: number = 0;
 
   /**
    * Will create a new horizontal slider on the given selector using
@@ -33,6 +39,32 @@ export default class Scroller {
     if (options?.prevPageHandler) {
       options.prevPageHandler.addEventListener("click", () => this.gotoLeft());
     }
+
+    if (options?.autoplay && options?.autoplay > 0) {
+      this.autoplayDuration = options.autoplay;
+      this.initAutoplay();
+
+      this.container.addEventListener("mousedown", () => this.clearAutoplay());
+      this.container.addEventListener("touchstart", () => this.clearAutoplay());
+
+      document.addEventListener("mouseup", () => this.initAutoplay());
+      document.addEventListener("touchend", () => this.initAutoplay());
+    }
+  }
+
+  /**
+   * Initialize the autoplay interval
+   */
+  private initAutoplay(): void {
+    if (this.autoplayInterval !== 0) return;
+    this.autoplayInterval = window.setInterval(() => {
+      this.gotoRight();
+    }, this.autoplayDuration);
+  }
+
+  private clearAutoplay(): void {
+    window.clearInterval(this.autoplayInterval);
+    this.autoplayInterval = 0;
   }
 
   /**

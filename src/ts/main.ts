@@ -17,12 +17,23 @@ window.onload = () => {
     const prev = slider.parentElement?.querySelector(".prev") as HTMLElement;
     const next = slider.parentElement?.querySelector(".next") as HTMLElement;
 
-    window.scrollers.push(
-      new Scroller(slider, {
-        desktopClass: "hideScrollbar",
-        prevPageHandler: prev,
-        nextPageHandler: next,
-      })
-    );
+    if (slider.classList.contains("slider--autoplay")) {
+      window.scrollers.push(
+        new Scroller(slider, {
+          desktopClass: "hideScrollbar",
+          prevPageHandler: prev,
+          nextPageHandler: next,
+          autoplay: 2000,
+        })
+      );
+    } else {
+      window.scrollers.push(
+        new Scroller(slider, {
+          desktopClass: "hideScrollbar",
+          prevPageHandler: prev,
+          nextPageHandler: next,
+        })
+      );
+    }
   });
 };

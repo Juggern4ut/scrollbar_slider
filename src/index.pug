@@ -36,3 +36,12 @@ html(lang="en")
           while n < 10
             .slide
               a(href="https://wog.ch")= n++
+      
+      .container
+        .button.prev &lt; 
+        .button.next &gt;
+        section.slider.slider--partial.slider--autoplay#slider2
+          - var n = 0;
+          while n < 10
+            .slide
+              a(href="https://wog.ch")= n++

@@ -14,11 +14,21 @@ window.onload = function () {
         var slider = s;
         var prev = (_a = slider.parentElement) === null || _a === void 0 ? void 0 : _a.querySelector(".prev");
         var next = (_b = slider.parentElement) === null || _b === void 0 ? void 0 : _b.querySelector(".next");
-        window.scrollers.push(new Scroller_1.default(slider, {
-            desktopClass: "hideScrollbar",
-            prevPageHandler: prev,
-            nextPageHandler: next,
-        }));
+        if (slider.classList.contains("slider--autoplay")) {
+            window.scrollers.push(new Scroller_1.default(slider, {
+                desktopClass: "hideScrollbar",
+                prevPageHandler: prev,
+                nextPageHandler: next,
+                autoplay: 2000,
+            }));
+        }
+        else {
+            window.scrollers.push(new Scroller_1.default(slider, {
+                desktopClass: "hideScrollbar",
+                prevPageHandler: prev,
+                nextPageHandler: next,
+            }));
+        }
     });
 };
 //# sourceMappingURL=main.js.map
