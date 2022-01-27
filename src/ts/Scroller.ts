@@ -127,6 +127,8 @@ export default class Scroller {
       el = this.container.children[el] as HTMLElement;
     }
 
+    if (!el) return;
+
     const style = window.getComputedStyle(el);
     this.container.scroll({
       top: 0,
