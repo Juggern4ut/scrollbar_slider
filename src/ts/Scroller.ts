@@ -53,21 +53,6 @@ export default class Scroller {
   }
 
   /**
-   * Initialize the autoplay interval
-   */
-  private initAutoplay(): void {
-    if (this.autoplayInterval !== 0) return;
-    this.autoplayInterval = window.setInterval(() => {
-      this.gotoRight();
-    }, this.autoplayDuration);
-  }
-
-  private clearAutoplay(): void {
-    window.clearInterval(this.autoplayInterval);
-    this.autoplayInterval = 0;
-  }
-
-  /**
    * Scroll to the previous page, if the current
    * position is at the end scroll to the first page
    */
@@ -177,5 +162,25 @@ export default class Scroller {
       index: closestSlide,
       el: this.container.children[closestSlide] as HTMLElement,
     };
+  }
+
+  /**
+   * Initialize the autoplay interval
+   */
+  private initAutoplay(): void {
+    if (this.autoplayInterval !== 0) return;
+    this.autoplayInterval = window.setInterval(() => {
+      this.gotoRight();
+    }, this.autoplayDuration);
+  }
+
+  /**
+   * Will stop the autoplay interval. This is used when the user
+   * is manually scrolling the slideshow to not interfere with the
+   * user input
+   */
+  private clearAutoplay(): void {
+    window.clearInterval(this.autoplayInterval);
+    this.autoplayInterval = 0;
   }
 }

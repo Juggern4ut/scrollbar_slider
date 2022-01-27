@@ -36,21 +36,6 @@ var Scroller = /** @class */ (function () {
         }
     }
     /**
-     * Initialize the autoplay interval
-     */
-    Scroller.prototype.initAutoplay = function () {
-        var _this = this;
-        if (this.autoplayInterval !== 0)
-            return;
-        this.autoplayInterval = window.setInterval(function () {
-            _this.gotoRight();
-        }, this.autoplayDuration);
-    };
-    Scroller.prototype.clearAutoplay = function () {
-        window.clearInterval(this.autoplayInterval);
-        this.autoplayInterval = 0;
-    };
-    /**
      * Scroll to the previous page, if the current
      * position is at the end scroll to the first page
      */
@@ -147,6 +132,26 @@ var Scroller = /** @class */ (function () {
             index: closestSlide,
             el: this.container.children[closestSlide],
         };
+    };
+    /**
+     * Initialize the autoplay interval
+     */
+    Scroller.prototype.initAutoplay = function () {
+        var _this = this;
+        if (this.autoplayInterval !== 0)
+            return;
+        this.autoplayInterval = window.setInterval(function () {
+            _this.gotoRight();
+        }, this.autoplayDuration);
+    };
+    /**
+     * Will stop the autoplay interval. This is used when the user
+     * is manually scrolling the slideshow to not interfere with the
+     * user input
+     */
+    Scroller.prototype.clearAutoplay = function () {
+        window.clearInterval(this.autoplayInterval);
+        this.autoplayInterval = 0;
     };
     return Scroller;
 }());
