@@ -4,17 +4,19 @@ var Scroller = /** @class */ (function () {
     /**
      * Will create a new horizontal slider on the given selector using
      * the options passed to the constructor
-     * @param selector The selector to find the container of the slider
+     * @param sel The selector to find the container of the slider
      * @param options The options used to build the slider (optional)
      */
-    function Scroller(selector, options) {
+    function Scroller(sel, options) {
         var _this = this;
-        if (typeof selector === "string") {
-            this.container = document.querySelector(selector);
-        }
-        else {
-            this.container = selector;
-        }
+        /** The interval responsible for autoplay */
+        this.autoplayInterval = 0;
+        /** The amount of milliseconds between autoplaying slides */
+        this.autoplayDuration = 0;
+        if (typeof sel === "string")
+            this.container = document.querySelector(sel);
+        else
+            this.container = sel;
         if ((options === null || options === void 0 ? void 0 : options.desktopClass) && window.ontouchstart === undefined) {
             this.container.classList.add(options.desktopClass);
         }
@@ -24,7 +26,30 @@ var Scroller = /** @class */ (function () {
         if (options === null || options === void 0 ? void 0 : options.prevPageHandler) {
             options.prevPageHandler.addEventListener("click", function () { return _this.gotoLeft(); });
         }
+        if ((options === null || options === void 0 ? void 0 : options.autoplay) && (options === null || options === void 0 ? void 0 : options.autoplay) > 0) {
+            this.autoplayDuration = options.autoplay;
+            this.initAutoplay();
+            this.container.addEventListener("mousedown", function () { return _this.clearAutoplay(); });
+            this.container.addEventListener("touchstart", function () { return _this.clearAutoplay(); });
+            document.addEventListener("mouseup", function () { return _this.initAutoplay(); });
+            document.addEventListener("touchend", function () { return _this.initAutoplay(); });
+        }
     }
+    /**
+     * Initialize the autoplay interval
+     */
+    Scroller.prototype.initAutoplay = function () {
+        var _this = this;
+        if (this.autoplayInterval !== 0)
+            return;
+        this.autoplayInterval = window.setInterval(function () {
+            _this.gotoRight();
+        }, this.autoplayDuration);
+    };
+    Scroller.prototype.clearAutoplay = function () {
+        window.clearInterval(this.autoplayInterval);
+        this.autoplayInterval = 0;
+    };
     /**
      * Scroll to the previous page, if the current
      * position is at the end scroll to the first page
