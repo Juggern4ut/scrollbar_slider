@@ -61,7 +61,12 @@ var Scroller = /** @class */ (function () {
         var closest = this.getClosestElement().index;
         var elementsPP = this.getElementPerPageAmount();
         var currentPage = Math.floor(closest / elementsPP) * elementsPP;
-        this.gotoElement(currentPage + elementsPP);
+        if (currentPage + elementsPP >= this.container.children.length) {
+            this.gotoElement(this.container.children.length - 1);
+        }
+        else {
+            this.gotoElement(currentPage + elementsPP);
+        }
     };
     /**
      * Scroll to the previous page, if the current
@@ -74,7 +79,12 @@ var Scroller = /** @class */ (function () {
         var closest = this.getClosestElement().index;
         var elementsPP = this.getElementPerPageAmount();
         var currentPage = Math.ceil(closest / elementsPP) * elementsPP;
-        this.gotoElement(currentPage - elementsPP);
+        if (currentPage - elementsPP < 0) {
+            this.gotoElement(0);
+        }
+        else {
+            this.gotoElement(currentPage - elementsPP);
+        }
     };
     /**
      * Will calculate the amount of elements that can be shown in the
@@ -93,6 +103,7 @@ var Scroller = /** @class */ (function () {
      * @param el The element (or index) to advance to
      */
     Scroller.prototype.gotoElement = function (el) {
+        console.log(el);
         if (typeof el === "number") {
             el = this.container.children[el];
         }

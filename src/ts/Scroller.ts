@@ -79,7 +79,11 @@ export default class Scroller {
     const elementsPP = this.getElementPerPageAmount();
     const currentPage = Math.floor(closest / elementsPP) * elementsPP;
 
-    this.gotoElement(currentPage + elementsPP);
+    if (currentPage + elementsPP >= this.container.children.length) {
+      this.gotoElement(this.container.children.length - 1);
+    } else {
+      this.gotoElement(currentPage + elementsPP);
+    }
   }
 
   /**
@@ -94,7 +98,11 @@ export default class Scroller {
     const elementsPP = this.getElementPerPageAmount();
     const currentPage = Math.ceil(closest / elementsPP) * elementsPP;
 
-    this.gotoElement(currentPage - elementsPP);
+    if (currentPage - elementsPP < 0) {
+      this.gotoElement(0);
+    } else {
+      this.gotoElement(currentPage - elementsPP);
+    }
   }
 
   /**
@@ -115,6 +123,8 @@ export default class Scroller {
    * @param el The element (or index) to advance to
    */
   private gotoElement(el: HTMLElement | number): void {
+    console.log(el);
+
     if (typeof el === "number") {
       el = this.container.children[el] as HTMLElement;
     }
