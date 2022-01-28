@@ -7,6 +7,8 @@ interface ScrollerOptions {
   prevPageHandler?: HTMLElement | undefined;
   /** After the given amount of milliseconds wil automatically advance to next slide. Disable with 0 */
   autoplay?: number;
+  /** If set to true, will allow scrolling via mouse drag on desktop */
+  mouseScrolling?: boolean;
 }
 
 export default class Scroller {
@@ -50,6 +52,10 @@ export default class Scroller {
       document.addEventListener("mouseup", () => this.initAutoplay());
       document.addEventListener("touchend", () => this.initAutoplay());
     }
+
+    if (options?.mouseScrolling) {
+      this.initializeMouseScrolling();
+    }
   }
 
   /**
@@ -88,6 +94,35 @@ export default class Scroller {
     }
 
     return this.gotoElement(currentPage - elementsPP);
+  }
+
+  /**
+   * If called, allows the user to scroll the slider on desktop
+   * by clicking and dragging with the mouse
+   */
+  private initializeMouseScrolling(): void {
+    /** Ignore on touch devices */
+    if (window.ontouchstart !== undefined) return;
+
+    let clickPosX: number;
+    let dragging: boolean = false;
+
+    this.container.addEventListener("mousedown", (e) => {
+      clickPosX = e.pageX;
+      dragging = true;
+    });
+
+    document.addEventListener("mousemove", (e) => {
+      if (!dragging) return;
+      const delta = clickPosX - e.pageX;
+      this.container.style.scrollBehavior = "auto";
+      this.container.scrollBy({ left: delta, behavior: "auto" });
+      clickPosX = e.pageX;
+    });
+
+    document.addEventListener("mouseup", (e) => {
+      dragging = false;
+    });
   }
 
   /**

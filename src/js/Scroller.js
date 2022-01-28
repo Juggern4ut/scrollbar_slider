@@ -34,6 +34,9 @@ var Scroller = /** @class */ (function () {
             document.addEventListener("mouseup", function () { return _this.initAutoplay(); });
             document.addEventListener("touchend", function () { return _this.initAutoplay(); });
         }
+        if (options === null || options === void 0 ? void 0 : options.mouseScrolling) {
+            this.initializeMouseScrolling();
+        }
     }
     /**
      * Scroll to the previous page, if the current
@@ -66,6 +69,33 @@ var Scroller = /** @class */ (function () {
             return this.gotoElement(this.container.children.length - 1);
         }
         return this.gotoElement(currentPage - elementsPP);
+    };
+    /**
+     * If called, allows the user to scroll the slider on desktop
+     * by clicking and dragging with the mouse
+     */
+    Scroller.prototype.initializeMouseScrolling = function () {
+        var _this = this;
+        /** Ignore on touch devices */
+        if (window.ontouchstart !== undefined)
+            return;
+        var clickPosX;
+        var dragging = false;
+        this.container.addEventListener("mousedown", function (e) {
+            clickPosX = e.pageX;
+            dragging = true;
+        });
+        document.addEventListener("mousemove", function (e) {
+            if (!dragging)
+                return;
+            var delta = clickPosX - e.pageX;
+            _this.container.style.scrollBehavior = "auto";
+            _this.container.scrollBy({ left: delta, behavior: "auto" });
+            clickPosX = e.pageX;
+        });
+        document.addEventListener("mouseup", function (e) {
+            dragging = false;
+        });
     };
     /**
      * Will calculate the amount of elements that can be shown in the

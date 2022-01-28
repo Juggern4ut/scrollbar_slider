@@ -32,6 +32,7 @@ window.onload = () => {
           desktopClass: "hideScrollbar",
           prevPageHandler: prev,
           nextPageHandler: next,
+          mouseScrolling: true,
         })
       );
     }

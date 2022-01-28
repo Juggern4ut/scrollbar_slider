@@ -27,6 +27,7 @@ window.onload = function () {
                 desktopClass: "hideScrollbar",
                 prevPageHandler: prev,
                 nextPageHandler: next,
+                mouseScrolling: true,
             }));
         }
     });
