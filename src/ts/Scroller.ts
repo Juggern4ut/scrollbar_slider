@@ -107,20 +107,23 @@ export default class Scroller {
     let clickPosX: number;
     let dragging: boolean = false;
 
-    this.container.addEventListener("mousedown", (e) => {
-      clickPosX = e.pageX;
+    /** Prevent selection on container due to unwanted effects */
+    this.container.style.userSelect = "none";
+
+    this.container.addEventListener("mousedown", (e: MouseEvent) => {
+      clickPosX = e.clientX;
       dragging = true;
     });
 
-    document.addEventListener("mousemove", (e) => {
+    document.addEventListener("mousemove", (e: MouseEvent) => {
       if (!dragging) return;
-      const delta = clickPosX - e.pageX;
+      const delta = clickPosX - e.clientX;
       this.container.style.scrollBehavior = "auto";
       this.container.scrollBy({ left: delta, behavior: "auto" });
-      clickPosX = e.pageX;
+      clickPosX = e.clientX;
     });
 
-    document.addEventListener("mouseup", (e) => {
+    document.addEventListener("mouseup", (e: MouseEvent) => {
       dragging = false;
     });
   }

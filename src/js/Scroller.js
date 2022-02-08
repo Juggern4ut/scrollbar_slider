@@ -81,17 +81,19 @@ var Scroller = /** @class */ (function () {
             return;
         var clickPosX;
         var dragging = false;
+        /** Prevent selection on container due to unwanted effects */
+        this.container.style.userSelect = "none";
         this.container.addEventListener("mousedown", function (e) {
-            clickPosX = e.pageX;
+            clickPosX = e.clientX;
             dragging = true;
         });
         document.addEventListener("mousemove", function (e) {
             if (!dragging)
                 return;
-            var delta = clickPosX - e.pageX;
+            var delta = clickPosX - e.clientX;
             _this.container.style.scrollBehavior = "auto";
             _this.container.scrollBy({ left: delta, behavior: "auto" });
-            clickPosX = e.pageX;
+            clickPosX = e.clientX;
         });
         document.addEventListener("mouseup", function (e) {
             dragging = false;
