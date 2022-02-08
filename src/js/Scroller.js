@@ -79,21 +79,34 @@ var Scroller = /** @class */ (function () {
         /** Ignore on touch devices */
         if (window.ontouchstart !== undefined)
             return;
+        var staticClickPosX;
         var clickPosX;
         var dragging = false;
         /** Prevent selection on container due to unwanted effects */
         this.container.style.userSelect = "none";
+        var prevElements = this.container.querySelectorAll("a, img");
+        prevElements.forEach(function (el) {
+            var i = el;
+            i.ondragstart = function (e) { return e.preventDefault(); };
+        });
         this.container.addEventListener("mousedown", function (e) {
+            staticClickPosX = e.clientX;
             clickPosX = e.clientX;
             dragging = true;
         });
         document.addEventListener("mousemove", function (e) {
             if (!dragging)
                 return;
+            e.preventDefault();
             var delta = clickPosX - e.clientX;
             _this.container.style.scrollBehavior = "auto";
             _this.container.scrollBy({ left: delta, behavior: "auto" });
             clickPosX = e.clientX;
+        });
+        document.addEventListener("click", function (e) {
+            var delta = staticClickPosX - e.clientX;
+            if (delta !== NaN && Math.abs(delta) > 10)
+                e.preventDefault();
         });
         document.addEventListener("mouseup", function (e) {
             dragging = false;

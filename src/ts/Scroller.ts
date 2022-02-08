@@ -104,23 +104,37 @@ export default class Scroller {
     /** Ignore on touch devices */
     if (window.ontouchstart !== undefined) return;
 
+    let staticClickPosX: number;
     let clickPosX: number;
     let dragging: boolean = false;
 
     /** Prevent selection on container due to unwanted effects */
     this.container.style.userSelect = "none";
+    
+    const prevElements = this.container.querySelectorAll("a, img");
+    prevElements.forEach((el: Element) => {
+      const i = el as HTMLElement;
+      i.ondragstart = (e) => e.preventDefault();
+    });
 
     this.container.addEventListener("mousedown", (e: MouseEvent) => {
+      staticClickPosX = e.clientX;
       clickPosX = e.clientX;
       dragging = true;
     });
 
     document.addEventListener("mousemove", (e: MouseEvent) => {
       if (!dragging) return;
+      e.preventDefault();
       const delta = clickPosX - e.clientX;
       this.container.style.scrollBehavior = "auto";
       this.container.scrollBy({ left: delta, behavior: "auto" });
       clickPosX = e.clientX;
+    });
+
+    document.addEventListener("click", (e: MouseEvent) => {
+      const delta = staticClickPosX - e.clientX;
+      if (delta !== NaN && Math.abs(delta) > 10) e.preventDefault();
     });
 
     document.addEventListener("mouseup", (e: MouseEvent) => {
