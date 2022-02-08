@@ -103,9 +103,9 @@ var Scroller = /** @class */ (function () {
             _this.container.scrollBy({ left: delta, behavior: "auto" });
             clickPosX = e.clientX;
         });
-        document.addEventListener("click", function (e) {
-            var delta = staticClickPosX - e.clientX;
-            if (delta !== NaN && Math.abs(delta) > 10)
+        this.container.addEventListener("click", function (e) {
+            var delta = Math.abs(staticClickPosX - e.clientX);
+            if (delta > 10)
                 e.preventDefault();
         });
         document.addEventListener("mouseup", function (e) {

@@ -110,7 +110,7 @@ export default class Scroller {
 
     /** Prevent selection on container due to unwanted effects */
     this.container.style.userSelect = "none";
-    
+
     const prevElements = this.container.querySelectorAll("a, img");
     prevElements.forEach((el: Element) => {
       const i = el as HTMLElement;
@@ -132,9 +132,9 @@ export default class Scroller {
       clickPosX = e.clientX;
     });
 
-    document.addEventListener("click", (e: MouseEvent) => {
-      const delta = staticClickPosX - e.clientX;
-      if (delta !== NaN && Math.abs(delta) > 10) e.preventDefault();
+    this.container.addEventListener("click", (e: MouseEvent) => {
+      const delta = Math.abs(staticClickPosX - e.clientX);
+      if (delta > 10) e.preventDefault();
     });
 
     document.addEventListener("mouseup", (e: MouseEvent) => {
