@@ -4,9 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var smoothscroll_polyfill_1 = __importDefault(require("smoothscroll-polyfill"));
+var prismjs_1 = __importDefault(require("prismjs"));
 var Scroller_1 = __importDefault(require("./Scroller"));
 smoothscroll_polyfill_1.default.polyfill();
 window.onload = function () {
+    prismjs_1.default.highlightAll();
     var sliders = document.querySelectorAll(".slider");
     window.scrollers = [];
     sliders.forEach(function (s) {
