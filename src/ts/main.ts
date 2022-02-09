@@ -23,6 +23,7 @@ window.onload = () => {
           desktopClass: "hideScrollbar",
           prevPageHandler: prev,
           nextPageHandler: next,
+          mouseScrolling: true,
           autoplay: 2000,
         })
       );
@@ -33,6 +34,9 @@ window.onload = () => {
           prevPageHandler: prev,
           nextPageHandler: next,
           mouseScrolling: true,
+          stopDragHandler: (s: Scroller) => {
+            s.align();
+          },
         })
       );
     }

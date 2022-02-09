@@ -19,6 +19,7 @@ window.onload = function () {
                 desktopClass: "hideScrollbar",
                 prevPageHandler: prev,
                 nextPageHandler: next,
+                mouseScrolling: true,
                 autoplay: 2000,
             }));
         }
@@ -28,6 +29,9 @@ window.onload = function () {
                 prevPageHandler: prev,
                 nextPageHandler: next,
                 mouseScrolling: true,
+                stopDragHandler: function (s) {
+                    s.align();
+                },
             }));
         }
     });
