@@ -36,6 +36,7 @@ window.onload = () => {
           prevPageHandler: prev,
           nextPageHandler: next,
           mouseScrolling: true,
+          autoAlign: true
         })
       );
     }

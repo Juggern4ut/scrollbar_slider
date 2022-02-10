@@ -11,6 +11,8 @@ interface ScrollerOptions {
   mouseScrolling?: boolean;
   /** A function that is called when manual draggign ends */
   stopDragHandler?: Function;
+  /** Automatically align the slider after scrolling or resizing if set to true */
+  autoAlign?: boolean;
 }
 
 export default class Scroller {
@@ -22,6 +24,8 @@ export default class Scroller {
   autoplayDuration: number = 0;
   /** A function that is called when manual draggign ends */
   stopDragHandler: Function = () => {};
+  /** Automatically align the slider after scrolling or resizing if set to true*/
+  autoAlign?: boolean;
 
   /**
    * Will create a new horizontal slider on the given selector using
@@ -44,6 +48,11 @@ export default class Scroller {
 
     if (options?.prevPageHandler) {
       options.prevPageHandler.addEventListener("click", () => this.gotoLeft());
+    }
+
+    if (options?.autoAlign) {
+      this.autoAlign = options.autoAlign;
+      this.initializeResizeAlign();
     }
 
     if (options?.autoplay && options?.autoplay > 0) {
@@ -107,9 +116,10 @@ export default class Scroller {
   /**
    * Aligns the slider to the closest slide
    * so no slides are cut off
+   * @param instant Jump instantly to the closest Element
    */
-  public align(): void {
-    this.gotoElement(this.getClosestElement().index);
+  public align(instant?: boolean): void {
+    this.gotoElement(this.getClosestElement().index, instant);
   }
 
   /**
@@ -155,9 +165,20 @@ export default class Scroller {
 
     document.addEventListener("mouseup", (e: MouseEvent) => {
       if (dragging) {
+        if (this.autoAlign) this.align();
         this.stopDragHandler(this);
       }
       dragging = false;
+    });
+  }
+
+  /**
+   * Inizialize the window resize eventListener which will
+   * align the slides if set in the options
+   */
+  private initializeResizeAlign(): void {
+    window.addEventListener("resize", () => {
+      if (this.autoAlign) this.align(true);
     });
   }
 
@@ -177,20 +198,25 @@ export default class Scroller {
   /**
    * Will advance the slider to a given element or index
    * @param el The element (or index) to advance to
+   * @param instant Jump instantly to the given element
    */
-  private gotoElement(el: HTMLElement | number): void {
+  private gotoElement(el: HTMLElement | number, instant?: boolean): void {
     if (typeof el === "number") {
       el = this.container.children[el] as HTMLElement;
     }
 
     if (!el) return;
 
+    if(instant) this.container.style.scrollBehavior = "auto";
+
     const style = window.getComputedStyle(el);
     this.container.scroll({
       top: 0,
       left: el.offsetLeft - parseFloat(style.marginLeft),
-      behavior: "smooth",
+      behavior: instant ? "auto" : "smooth",
     });
+
+    if(instant) this.container.style.scrollBehavior = "smooth";
   }
 
   /**

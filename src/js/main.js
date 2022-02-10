@@ -31,6 +31,7 @@ window.onload = function () {
                 prevPageHandler: prev,
                 nextPageHandler: next,
                 mouseScrolling: true,
+                autoAlign: true
             }));
         }
     });

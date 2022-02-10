@@ -28,6 +28,10 @@ var Scroller = /** @class */ (function () {
         if (options === null || options === void 0 ? void 0 : options.prevPageHandler) {
             options.prevPageHandler.addEventListener("click", function () { return _this.gotoLeft(); });
         }
+        if (options === null || options === void 0 ? void 0 : options.autoAlign) {
+            this.autoAlign = options.autoAlign;
+            this.initializeResizeAlign();
+        }
         if ((options === null || options === void 0 ? void 0 : options.autoplay) && (options === null || options === void 0 ? void 0 : options.autoplay) > 0) {
             this.autoplayDuration = options.autoplay;
             this.initAutoplay();
@@ -78,9 +82,10 @@ var Scroller = /** @class */ (function () {
     /**
      * Aligns the slider to the closest slide
      * so no slides are cut off
+     * @param instant Jump instantly to the closest Element
      */
-    Scroller.prototype.align = function () {
-        this.gotoElement(this.getClosestElement().index);
+    Scroller.prototype.align = function (instant) {
+        this.gotoElement(this.getClosestElement().index, instant);
     };
     /**
      * If called, allows the user to scroll the slider on desktop
@@ -122,9 +127,22 @@ var Scroller = /** @class */ (function () {
         });
         document.addEventListener("mouseup", function (e) {
             if (dragging) {
+                if (_this.autoAlign)
+                    _this.align();
                 _this.stopDragHandler(_this);
             }
             dragging = false;
+        });
+    };
+    /**
+     * Inizialize the window resize eventListener which will
+     * align the slides if set in the options
+     */
+    Scroller.prototype.initializeResizeAlign = function () {
+        var _this = this;
+        window.addEventListener("resize", function () {
+            if (_this.autoAlign)
+                _this.align(true);
         });
     };
     /**
@@ -142,19 +160,24 @@ var Scroller = /** @class */ (function () {
     /**
      * Will advance the slider to a given element or index
      * @param el The element (or index) to advance to
+     * @param instant Jump instantly to the given element
      */
-    Scroller.prototype.gotoElement = function (el) {
+    Scroller.prototype.gotoElement = function (el, instant) {
         if (typeof el === "number") {
             el = this.container.children[el];
         }
         if (!el)
             return;
+        if (instant)
+            this.container.style.scrollBehavior = "auto";
         var style = window.getComputedStyle(el);
         this.container.scroll({
             top: 0,
             left: el.offsetLeft - parseFloat(style.marginLeft),
-            behavior: "smooth",
+            behavior: instant ? "auto" : "smooth",
         });
+        if (instant)
+            this.container.style.scrollBehavior = "smooth";
     };
     /**
      * Will check if the slideshow currently is at the very end

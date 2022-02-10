@@ -161,17 +161,17 @@ main {
   margin-top: 5px; }
 
 .button {
-  background-color: #008761;
+  background-color: #9cdcfe;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   padding: 20px 15px;
   font-size: 30px;
-  color: #fff;
+  color: #272822;
   font-weight: bold;
   user-select: none;
   cursor: pointer;
-  opacity: 0.9;
+  opacity: 0.95;
   z-index: 10; }
 
 .next {
