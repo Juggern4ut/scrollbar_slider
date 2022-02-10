@@ -31,9 +31,6 @@ window.onload = function () {
                 prevPageHandler: prev,
                 nextPageHandler: next,
                 mouseScrolling: true,
-                stopDragHandler: function (s) {
-                    s.align();
-                },
             }));
         }
     });

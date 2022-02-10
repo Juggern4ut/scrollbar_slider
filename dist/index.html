@@ -40,7 +40,7 @@
 .slide{
   flex-grow: 0;
   margin: 0 10px;
-  width: calc(100% / 4 - 20px);
+  width: calc(100% / 3 - 20px);
 }</code></pre>
       <h2>Fire it up </h2>
       <p>
@@ -52,7 +52,7 @@ const prev = document.querySelector("prev");
 const mySlider = new Scroller(".slider", {
   prevPageHandler: prev,
   nextPageHandler: next,
-})</code></pre>
+});</code></pre>
       <h2>Options </h2>
       <p>
         This Scroller can recieve some options that can 
@@ -62,21 +62,13 @@ const mySlider = new Scroller(".slider", {
         Scroller.ts file. If you don't care about that kind of stuff 
         you will find the options to pass to the constructor here
         as well.
-      </p>
-      <pre><code class="language-js">interface ScrollerOptions {
-  /** The class added to the container of the slider but only on non touch devices */
-  desktopClass?: string;
-  /** A HTMLElement that when clicked will progress the slider to the next slide */
-  nextPageHandler?: HTMLElement | undefined;
-  /** A HTMLElement that when clicked will revert the slider to the previous slide */
-  prevPageHandler?: HTMLElement | undefined;
-  /** After the given amount of milliseconds wil automatically advance to next slide. Disable with 0 */
-  autoplay?: number;
-  /** If set to true, will allow scrolling via mouse drag on desktop */
-  mouseScrolling?: boolean;
-  /** A function that is called when manual draggign ends */
-  stopDragHandler?: Function;
-}</code></pre>
+      </p><br/><code class="inline"><span class="blue">desktopClass</span><span>? : </span><span class="green">string</span><span>;</span></code>
+      <p class="code-desc">The class added to the container of the slider but only on non touch devices</p><code class="inline"><span class="blue">nextPageHandler</span><span>? : </span><span class="green">HTMLElement </span><span>| </span><span class="green">undefined</span><span>;</span></code>
+      <p class="code-desc">A HTMLElement that when clicked will progress the slider to the next slide</p><code class="inline"><span class="blue">prevPageHandler</span><span>? : </span><span class="green">HTMLElement </span><span>| </span><span class="green">undefined</span><span>;</span></code>
+      <p class="code-desc">A HTMLElement that when clicked will revert the slider to the previous slide</p><code class="inline"><span class="blue">autoplay</span><span>? : </span><span class="green">number</span><span>;</span></code>
+      <p class="code-desc">After the given amount of milliseconds wil automatically advance to next slide.</p><code class="inline"><span class="blue">mouseScrolling</span><span>? : </span><span class="green">boolean</span><span>;</span></code>
+      <p class="code-desc">If set to true, will allow scrolling via mouse drag on desktop</p><code class="inline"><span class="blue">stopDragHandler</span><span>? : </span><span class="green">Function</span><span>;</span></code>
+      <p class="code-desc">A function that is called when manual draggign ends</p>
       <h2>Default Slider</h2>
       <div class="container"> 
         <div class="button prev">&lt; </div>
@@ -147,5 +139,6 @@ const mySlider = new Scroller(".slider", {
         </section>
       </div>
     </main>
+    <footer> <a target="_blank" href="https://github.com/Juggern4ut/scrollbar_slider">Vertical Slider on Github</a><a target="_blank" href="https://github.com/Juggern4ut">Author</a></footer>
   </body>
 </html>

@@ -44,7 +44,7 @@ html(lang="en")
           | .slide{
           |   flex-grow: 0;
           |   margin: 0 10px;
-          |   width: calc(100% / 4 - 20px);
+          |   width: calc(100% / 3 - 20px);
           | }
 
       h2 Fire it up 
@@ -59,7 +59,7 @@ html(lang="en")
           | const mySlider = new Scroller(".slider", {
           |   prevPageHandler: prev,
           |   nextPageHandler: next,
-          | })
+          | });
 
       h2 Options 
       p
@@ -71,22 +71,59 @@ html(lang="en")
         | you will find the options to pass to the constructor here
         | as well.
 
-      pre
-        code.language-js
-          |interface ScrollerOptions {
-          |   /** The class added to the container of the slider but only on non touch devices */
-          |   desktopClass?: string;
-          |   /** A HTMLElement that when clicked will progress the slider to the next slide */
-          |   nextPageHandler?: HTMLElement | undefined;
-          |   /** A HTMLElement that when clicked will revert the slider to the previous slide */
-          |   prevPageHandler?: HTMLElement | undefined;
-          |   /** After the given amount of milliseconds wil automatically advance to next slide. Disable with 0 */
-          |   autoplay?: number;
-          |   /** If set to true, will allow scrolling via mouse drag on desktop */
-          |   mouseScrolling?: boolean;
-          |   /** A function that is called when manual draggign ends */
-          |   stopDragHandler?: Function;
-          |}
+      br
+
+      code.inline
+        span.blue desktopClass
+        span ? : 
+        span.green string
+        span ;
+      p.code-desc
+        | The class added to the container of the slider but only on non touch devices
+
+      code.inline
+        span.blue nextPageHandler
+        span ? : 
+        span.green HTMLElement 
+        span | 
+        span.green undefined
+        span ;
+      p.code-desc
+        | A HTMLElement that when clicked will progress the slider to the next slide
+
+      code.inline
+        span.blue prevPageHandler
+        span ? : 
+        span.green HTMLElement 
+        span | 
+        span.green undefined
+        span ;
+      p.code-desc
+        | A HTMLElement that when clicked will revert the slider to the previous slide
+
+      code.inline
+        span.blue autoplay
+        span ? : 
+        span.green number
+        span ;
+      p.code-desc
+        | After the given amount of milliseconds wil automatically advance to next slide.
+
+      code.inline
+        span.blue mouseScrolling
+        span ? : 
+        span.green boolean
+        span ;
+      p.code-desc
+        | If set to true, will allow scrolling via mouse drag on desktop
+
+      code.inline
+        span.blue stopDragHandler
+        span ? : 
+        span.green Function
+        span ;
+      p.code-desc
+        | A function that is called when manual draggign ends
 
       h2 Default Slider
       .container 
@@ -129,3 +166,7 @@ html(lang="en")
           while n < 10
             .slide
               a(href="https://wog.ch")= n++
+
+    footer 
+      a(target="_blank" href="https://github.com/Juggern4ut/scrollbar_slider") Vertical Slider on Github
+      a(target="_blank" href="https://github.com/Juggern4ut") Author

@@ -36,9 +36,6 @@ window.onload = () => {
           prevPageHandler: prev,
           nextPageHandler: next,
           mouseScrolling: true,
-          stopDragHandler: (s: Scroller) => {
-            s.align();
-          },
         })
       );
     }
