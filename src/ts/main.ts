@@ -1,4 +1,5 @@
 import smoothscroll from "smoothscroll-polyfill";
+import Prism from "prismjs";
 import Scroller from "./Scroller";
 
 interface NamespaceWindow extends Window {
@@ -9,6 +10,7 @@ declare var window: NamespaceWindow;
 smoothscroll.polyfill();
 
 window.onload = () => {
+  Prism.highlightAll();
   const sliders = document.querySelectorAll(".slider");
   window.scrollers = [];
 
@@ -23,6 +25,7 @@ window.onload = () => {
           desktopClass: "hideScrollbar",
           prevPageHandler: prev,
           nextPageHandler: next,
+          mouseScrolling: true,
           autoplay: 2000,
         })
       );
@@ -33,6 +36,9 @@ window.onload = () => {
           prevPageHandler: prev,
           nextPageHandler: next,
           mouseScrolling: true,
+          stopDragHandler: (s: Scroller) => {
+            s.align();
+          },
         })
       );
     }

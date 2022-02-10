@@ -9,6 +9,8 @@ interface ScrollerOptions {
   autoplay?: number;
   /** If set to true, will allow scrolling via mouse drag on desktop */
   mouseScrolling?: boolean;
+  /** A function that is called when manual draggign ends */
+  stopDragHandler?: Function;
 }
 
 export default class Scroller {
@@ -18,6 +20,8 @@ export default class Scroller {
   autoplayInterval: number = 0;
   /** The amount of milliseconds between autoplaying slides */
   autoplayDuration: number = 0;
+  /** A function that is called when manual draggign ends */
+  stopDragHandler: Function = () => {};
 
   /**
    * Will create a new horizontal slider on the given selector using
@@ -55,6 +59,10 @@ export default class Scroller {
 
     if (options?.mouseScrolling) {
       this.initializeMouseScrolling();
+    }
+
+    if (options?.stopDragHandler) {
+      this.stopDragHandler = options?.stopDragHandler;
     }
   }
 
@@ -94,6 +102,14 @@ export default class Scroller {
     }
 
     return this.gotoElement(currentPage - elementsPP);
+  }
+
+  /**
+   * Aligns the slider to the closest slide
+   * so no slides are cut off
+   */
+  public align(): void {
+    this.gotoElement(this.getClosestElement().index);
   }
 
   /**
@@ -138,6 +154,9 @@ export default class Scroller {
     });
 
     document.addEventListener("mouseup", (e: MouseEvent) => {
+      if (dragging) {
+        this.stopDragHandler(this);
+      }
       dragging = false;
     });
   }

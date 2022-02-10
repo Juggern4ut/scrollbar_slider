@@ -10,6 +10,85 @@ html(lang="en")
   body 
     main
       h1 Simple Vertical Scroller 
+
+      h2 HTML Setup
+      p 
+        | Create a simple container and place the elements you want your slider
+        | to contain directly inside of it. The buttons can be placed wherever you 
+        | want since they are only needed as handlers. I like to place them around 
+        | the slider.
+      pre
+        code.language-html
+          | #{'<div class="next"> > </div>'}
+          | #{'<section class="slider">'}
+          |   #{'<div class="slide">0</slide>'}
+          |   #{'<div class="slide">1</slide>'}
+          |   #{'<div class="slide">2</slide>'}
+          |   #{'...'}
+          | #{'</section>'}
+          | #{'<div class="prev"> < </div>'}
+
+      h2 CSS Setup
+      p 
+        | Now the container just needs to be a flex-container and have 
+        | no overflow on the x axis. The Slides just need a width relative 
+        | to the container size and flex-shrink set to 0 so they adapt to 
+        | the width correctly
+
+      pre
+        code.language-css
+          | .slider {
+          |   display: flex;
+          |   overflow-x: auto;
+          | }
+          | .slide{
+          |   flex-grow: 0;
+          |   margin: 0 10px;
+          |   width: calc(100% / 4 - 20px);
+          | }
+
+      h2 Fire it up 
+      p
+        | With everything now setup, all you need to do is instanciate the
+        | slider with the options you want to 
+
+      pre
+        code.language-js
+          | const next = document.querySelector("next");
+          | const prev = document.querySelector("prev");
+          | const mySlider = new Scroller(".slider", {
+          |   prevPageHandler: prev,
+          |   nextPageHandler: next,
+          | })
+
+      h2 Options 
+      p
+        | This Scroller can recieve some options that can 
+        | change the behaviour of the slider. If you use the 
+        | TypeScript version to build your own instance you can 
+        | find them documented and commented out in the top of the 
+        | Scroller.ts file. If you don't care about that kind of stuff 
+        | you will find the options to pass to the constructor here
+        | as well.
+
+      pre
+        code.language-js
+          |interface ScrollerOptions {
+          |   /** The class added to the container of the slider but only on non touch devices */
+          |   desktopClass?: string;
+          |   /** A HTMLElement that when clicked will progress the slider to the next slide */
+          |   nextPageHandler?: HTMLElement | undefined;
+          |   /** A HTMLElement that when clicked will revert the slider to the previous slide */
+          |   prevPageHandler?: HTMLElement | undefined;
+          |   /** After the given amount of milliseconds wil automatically advance to next slide. Disable with 0 */
+          |   autoplay?: number;
+          |   /** If set to true, will allow scrolling via mouse drag on desktop */
+          |   mouseScrolling?: boolean;
+          |   /** A function that is called when manual draggign ends */
+          |   stopDragHandler?: Function;
+          |}
+
+      h2 Default Slider
       .container 
         .button.prev &lt; 
         .button.next &gt;
@@ -19,6 +98,7 @@ html(lang="en")
             .slide
               a(href="https://wog.ch")= n++
 
+      h2 Cutoff Element
       .container
         .button.prev &lt; 
         .button.next &gt;
@@ -28,6 +108,7 @@ html(lang="en")
             .slide
               a(href="https://wog.ch")= n++
 
+      h2 Single Slides
       .container
         .button.prev &lt; 
         .button.next &gt;
@@ -37,8 +118,9 @@ html(lang="en")
             .slide
               a(href="https://wog.ch")= n++
           .slide
-            img(src="https://placekitten.com/400/300", alt="Kitten")
-      
+            img(src="https://placekitten.com/400/300" alt="Kitten")
+
+      h2 Autoplay
       .container
         .button.prev &lt; 
         .button.next &gt;

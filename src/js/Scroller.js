@@ -13,6 +13,8 @@ var Scroller = /** @class */ (function () {
         this.autoplayInterval = 0;
         /** The amount of milliseconds between autoplaying slides */
         this.autoplayDuration = 0;
+        /** A function that is called when manual draggign ends */
+        this.stopDragHandler = function () { };
         if (typeof sel === "string")
             this.container = document.querySelector(sel);
         else
@@ -36,6 +38,9 @@ var Scroller = /** @class */ (function () {
         }
         if (options === null || options === void 0 ? void 0 : options.mouseScrolling) {
             this.initializeMouseScrolling();
+        }
+        if (options === null || options === void 0 ? void 0 : options.stopDragHandler) {
+            this.stopDragHandler = options === null || options === void 0 ? void 0 : options.stopDragHandler;
         }
     }
     /**
@@ -69,6 +74,13 @@ var Scroller = /** @class */ (function () {
             return this.gotoElement(this.container.children.length - 1);
         }
         return this.gotoElement(currentPage - elementsPP);
+    };
+    /**
+     * Aligns the slider to the closest slide
+     * so no slides are cut off
+     */
+    Scroller.prototype.align = function () {
+        this.gotoElement(this.getClosestElement().index);
     };
     /**
      * If called, allows the user to scroll the slider on desktop
@@ -109,6 +121,9 @@ var Scroller = /** @class */ (function () {
                 e.preventDefault();
         });
         document.addEventListener("mouseup", function (e) {
+            if (dragging) {
+                _this.stopDragHandler(_this);
+            }
             dragging = false;
         });
     };

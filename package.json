@@ -15,11 +15,13 @@
   "license": "ISC",
   "dependencies": {
     "node-sass": "^7.0.1",
+    "prismjs": "^1.26.0",
     "smoothscroll-polyfill": "^0.4.4",
     "typescript": "^4.5.4",
     "webpack": "^5.66.0"
   },
   "devDependencies": {
+    "@types/prismjs": "^1.26.0",
     "@types/smoothscroll-polyfill": "^0.3.1",
     "pug-cli": "^1.0.0-alpha6",
     "webpack-cli": "^4.9.1"

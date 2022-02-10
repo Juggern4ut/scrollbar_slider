@@ -4,9 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var smoothscroll_polyfill_1 = __importDefault(require("smoothscroll-polyfill"));
+var prismjs_1 = __importDefault(require("prismjs"));
 var Scroller_1 = __importDefault(require("./Scroller"));
 smoothscroll_polyfill_1.default.polyfill();
 window.onload = function () {
+    prismjs_1.default.highlightAll();
     var sliders = document.querySelectorAll(".slider");
     window.scrollers = [];
     sliders.forEach(function (s) {
@@ -19,6 +21,7 @@ window.onload = function () {
                 desktopClass: "hideScrollbar",
                 prevPageHandler: prev,
                 nextPageHandler: next,
+                mouseScrolling: true,
                 autoplay: 2000,
             }));
         }
@@ -28,6 +31,9 @@ window.onload = function () {
                 prevPageHandler: prev,
                 nextPageHandler: next,
                 mouseScrolling: true,
+                stopDragHandler: function (s) {
+                    s.align();
+                },
             }));
         }
     });
