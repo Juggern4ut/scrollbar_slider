@@ -109,7 +109,14 @@ pre[class*="language-"] {
   box-sizing: border-box; }
 
 body {
-  background-color: #dedede; }
+  font-family: Open Sans, Arial;
+  color: #454545;
+  font-size: 16px;
+  margin: 2em auto;
+  max-width: 800px;
+  padding: 1em;
+  line-height: 1.4;
+  text-align: justify; }
 
 h1 {
   font-size: 50px;
@@ -117,18 +124,18 @@ h1 {
   text-align: center;
   margin-bottom: 50px; }
 
+h2 {
+  margin-top: 50px; }
+
 main {
   max-width: 1240px;
   width: 100%;
   margin: 0 auto;
-  background-color: #fff;
-  min-height: 100vh;
-  padding-top: 50px; }
+  min-height: 100vh; }
 
 .container {
-  position: relative; }
-  .container:not(:first-of-type) {
-    margin-top: 150px; }
+  position: relative;
+  margin-top: 5px; }
 
 .button {
   background-color: #008761;
@@ -155,11 +162,11 @@ main {
 
 .slider {
   width: 100%;
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
   margin: 0 auto;
   display: flex;
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
+  border: 1px solid #ccc;
   scroll-behavior: smooth; }
   .slider .slide {
     text-align: center;
