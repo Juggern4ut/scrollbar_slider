@@ -204,11 +204,11 @@ main {
       font-family: "Courier New", Courier, monospace;
       line-height: 200px; }
     .slider .slide:nth-of-type(odd) {
-      background-color: #2c3a6e;
-      color: #fff; }
+      background-color: #272822;
+      color: #3ac9a2; }
     .slider .slide:nth-of-type(even) {
-      background-color: #f6b845;
-      color: #000; }
+      background-color: #3ac9a2;
+      color: #272822; }
     @media (max-width: 760px) {
       .slider .slide {
         width: calc(100% / 3 - 40px); } }
