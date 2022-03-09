@@ -26,7 +26,7 @@ window.onload = () => {
           prevPageHandler: prev,
           nextPageHandler: next,
           mouseScrolling: true,
-          autoplay: 2000,
+          autoplay: 0,
         })
       );
     } else {
@@ -36,7 +36,7 @@ window.onload = () => {
           prevPageHandler: prev,
           nextPageHandler: next,
           mouseScrolling: true,
-          autoAlign: true
+          autoAlign: true,
         })
       );
     }

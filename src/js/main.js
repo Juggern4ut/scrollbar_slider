@@ -22,7 +22,7 @@ window.onload = function () {
                 prevPageHandler: prev,
                 nextPageHandler: next,
                 mouseScrolling: true,
-                autoplay: 2000,
+                autoplay: 0,
             }));
         }
         else {
@@ -31,7 +31,7 @@ window.onload = function () {
                 prevPageHandler: prev,
                 nextPageHandler: next,
                 mouseScrolling: true,
-                autoAlign: true
+                autoAlign: true,
             }));
         }
     });

@@ -26,6 +26,10 @@ export default class Scroller {
   stopDragHandler: Function = () => {};
   /** Automatically align the slider after scrolling or resizing if set to true*/
   autoAlign?: boolean;
+  /** The index of the currently most left visible element */
+  currentElement: number = 0;
+  /** Will be called when the slide changes */
+  onChange: Function = () => null;
 
   /**
    * Will create a new horizontal slider on the given selector using
@@ -37,6 +41,11 @@ export default class Scroller {
     if (typeof sel === "string")
       this.container = document.querySelector(sel) as HTMLElement;
     else this.container = sel;
+
+    if (!this.container) {
+      console.warn(`Slider not initialized! Container '${sel}' not found!`);
+      return;
+    }
 
     if (options?.desktopClass && window.ontouchstart === undefined) {
       this.container.classList.add(options.desktopClass);
@@ -73,6 +82,14 @@ export default class Scroller {
     if (options?.stopDragHandler) {
       this.stopDragHandler = options?.stopDragHandler;
     }
+
+    this.container.addEventListener("scroll", () => {
+      const currentClosest = this.getClosestElement().index;
+      if (currentClosest !== this.currentElement) {
+        this.currentElement = currentClosest;
+        this.onChange(this.currentElement);
+      }
+    });
   }
 
   /**
@@ -207,7 +224,7 @@ export default class Scroller {
 
     if (!el) return;
 
-    if(instant) this.container.style.scrollBehavior = "auto";
+    if (instant) this.container.style.scrollBehavior = "auto";
 
     const style = window.getComputedStyle(el);
     this.container.scroll({
@@ -216,7 +233,7 @@ export default class Scroller {
       behavior: instant ? "auto" : "smooth",
     });
 
-    if(instant) this.container.style.scrollBehavior = "smooth";
+    if (instant) this.container.style.scrollBehavior = "smooth";
   }
 
   /**

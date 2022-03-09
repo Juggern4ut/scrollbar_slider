@@ -15,10 +15,18 @@ var Scroller = /** @class */ (function () {
         this.autoplayDuration = 0;
         /** A function that is called when manual draggign ends */
         this.stopDragHandler = function () { };
+        /** The index of the currently most left visible element */
+        this.currentElement = 0;
+        /** Will be called when the slide changes */
+        this.onChange = function () { return null; };
         if (typeof sel === "string")
             this.container = document.querySelector(sel);
         else
             this.container = sel;
+        if (!this.container) {
+            console.warn("Slider not initialized! Container '".concat(sel, "' not found!"));
+            return;
+        }
         if ((options === null || options === void 0 ? void 0 : options.desktopClass) && window.ontouchstart === undefined) {
             this.container.classList.add(options.desktopClass);
         }
@@ -46,6 +54,13 @@ var Scroller = /** @class */ (function () {
         if (options === null || options === void 0 ? void 0 : options.stopDragHandler) {
             this.stopDragHandler = options === null || options === void 0 ? void 0 : options.stopDragHandler;
         }
+        this.container.addEventListener("scroll", function () {
+            var currentClosest = _this.getClosestElement().index;
+            if (currentClosest !== _this.currentElement) {
+                _this.currentElement = currentClosest;
+                _this.onChange(_this.currentElement);
+            }
+        });
     }
     /**
      * Scroll to the previous page, if the current
