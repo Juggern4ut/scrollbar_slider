@@ -54,8 +54,8 @@ html(lang="en")
 
       pre
         code.language-js
-          | const next = document.querySelector("next");
-          | const prev = document.querySelector("prev");
+          | const next = document.querySelector(".next");
+          | const prev = document.querySelector(".prev");
           | const mySlider = new Scroller(".slider", {
           |   prevPageHandler: prev,
           |   nextPageHandler: next,
@@ -124,7 +124,7 @@ html(lang="en")
         span ;
       p.code-desc
         | A function that is called when manual draggign ends
-      
+
       code.inline
         span.blue autoAlign
         span ? : 
@@ -133,13 +133,21 @@ html(lang="en")
       p.code-desc
         | Automatically align the slider after scrolling or resizing if set to true
 
+      code.inline
+        span.blue noScrollClass
+        span ? : 
+        span.green string
+        span ;
+      p.code-desc
+        | A class that the slider will get as soon as the slider is no longer scrollable (due to lack of slides)
+
       h2 Default Slider
       .container 
         .button.prev &lt; 
         .button.next &gt;
         section.slider#slider 
           - var n = 0;
-          while n < 10
+          while n < 3
             .slide
               a(href="https://wog.ch")= n++
 

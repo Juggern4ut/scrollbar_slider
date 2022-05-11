@@ -61,7 +61,28 @@ var Scroller = /** @class */ (function () {
                 _this.onChange(_this.currentElement);
             }
         });
+        if (options === null || options === void 0 ? void 0 : options.noScrollClass) {
+            var nonScrollClass_1 = options === null || options === void 0 ? void 0 : options.noScrollClass;
+            this.setNoScrollableClass(nonScrollClass_1);
+            window.addEventListener("resize", function () {
+                _this.setNoScrollableClass(nonScrollClass_1);
+            });
+        }
     }
+    /**
+     * Will check if the slider has in total more slides than visible per page
+     * and will add/remove a class based on that information.
+     * @param className The classname to add to the slider if no scrolling can take place
+     */
+    Scroller.prototype.setNoScrollableClass = function (className) {
+        var pos = this.checkIfEndStartReached();
+        if (pos.isAtEnd && pos.isAtStart) {
+            this.container.classList.add(className);
+        }
+        else {
+            this.container.classList.remove(className);
+        }
+    };
     /**
      * Scroll to the previous page, if the current
      * position is at the end scroll to the first page

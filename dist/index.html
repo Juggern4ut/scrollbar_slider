@@ -47,8 +47,8 @@
         With everything now setup, all you need to do is instanciate the
         slider with the options you want to 
       </p>
-      <pre><code class="language-js">const next = document.querySelector("next");
-const prev = document.querySelector("prev");
+      <pre><code class="language-js">const next = document.querySelector(".next");
+const prev = document.querySelector(".prev");
 const mySlider = new Scroller(".slider", {
   prevPageHandler: prev,
   nextPageHandler: next,
@@ -69,7 +69,8 @@ const mySlider = new Scroller(".slider", {
       <p class="code-desc">After the given amount of milliseconds wil automatically advance to next slide.</p><code class="inline"><span class="blue">mouseScrolling</span><span>? : </span><span class="green">boolean</span><span>;</span></code>
       <p class="code-desc">If set to true, will allow scrolling via mouse drag on desktop</p><code class="inline"><span class="blue">stopDragHandler</span><span>? : </span><span class="green">Function</span><span>;</span></code>
       <p class="code-desc">A function that is called when manual draggign ends</p><code class="inline"><span class="blue">autoAlign</span><span>? : </span><span class="green">boolean</span><span>;</span></code>
-      <p class="code-desc">Automatically align the slider after scrolling or resizing if set to true</p>
+      <p class="code-desc">Automatically align the slider after scrolling or resizing if set to true</p><code class="inline"><span class="blue">noScrollClass</span><span>? : </span><span class="green">string</span><span>;</span></code>
+      <p class="code-desc">A class that the slider will get as soon as the slider is no longer scrollable (due to lack of slides)</p>
       <h2>Default Slider</h2>
       <div class="container"> 
         <div class="button prev">&lt; </div>
@@ -78,13 +79,6 @@ const mySlider = new Scroller(".slider", {
           <div class="slide"><a href="https://wog.ch">0</a></div>
           <div class="slide"><a href="https://wog.ch">1</a></div>
           <div class="slide"><a href="https://wog.ch">2</a></div>
-          <div class="slide"><a href="https://wog.ch">3</a></div>
-          <div class="slide"><a href="https://wog.ch">4</a></div>
-          <div class="slide"><a href="https://wog.ch">5</a></div>
-          <div class="slide"><a href="https://wog.ch">6</a></div>
-          <div class="slide"><a href="https://wog.ch">7</a></div>
-          <div class="slide"><a href="https://wog.ch">8</a></div>
-          <div class="slide"><a href="https://wog.ch">9</a></div>
         </section>
       </div>
       <h2>Cutoff Element</h2>

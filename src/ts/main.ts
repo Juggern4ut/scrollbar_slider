@@ -37,6 +37,7 @@ window.onload = () => {
           nextPageHandler: next,
           mouseScrolling: true,
           autoAlign: true,
+          noScrollClass: "cantScrollMate",
         })
       );
     }

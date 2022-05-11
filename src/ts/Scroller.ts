@@ -13,6 +13,8 @@ interface ScrollerOptions {
   stopDragHandler?: Function;
   /** Automatically align the slider after scrolling or resizing if set to true */
   autoAlign?: boolean;
+  /** This class will be applied to the container if there are too few slides to scroll the slider */
+  noScrollClass?: string;
 }
 
 export default class Scroller {
@@ -90,6 +92,28 @@ export default class Scroller {
         this.onChange(this.currentElement);
       }
     });
+
+    if (options?.noScrollClass) {
+      const nonScrollClass = options?.noScrollClass;
+      this.setNoScrollableClass(nonScrollClass);
+      window.addEventListener("resize", () => {
+        this.setNoScrollableClass(nonScrollClass);
+      });
+    }
+  }
+
+  /**
+   * Will check if the slider has in total more slides than visible per page
+   * and will add/remove a class based on that information.
+   * @param className The classname to add to the slider if no scrolling can take place
+   */
+  public setNoScrollableClass(className: string): void {
+    const pos = this.checkIfEndStartReached();
+    if (pos.isAtEnd && pos.isAtStart) {
+      this.container.classList.add(className);
+    } else {
+      this.container.classList.remove(className);
+    }
   }
 
   /**
