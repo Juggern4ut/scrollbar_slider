@@ -71,6 +71,37 @@ const mySlider = new Scroller(".slider", {
       <p class="code-desc">A function that is called when manual draggign ends</p><code class="inline"><span class="blue">autoAlign</span><span>? : </span><span class="green">boolean</span><span>;</span></code>
       <p class="code-desc">Automatically align the slider after scrolling or resizing if set to true</p><code class="inline"><span class="blue">noScrollClass</span><span>? : </span><span class="green">string</span><span>;</span></code>
       <p class="code-desc">A class that the slider will get as soon as the slider is no longer scrollable (due to lack of slides)</p>
+      <h2>Methods </h2>
+      <p>You can use the following methods to customize your Scroller</p><br/><code class="inline"><span class="blue">isScrollable()</span><span> : </span><span class="green">boolean</span></code>
+      <p class="code-desc">
+        Will return true if the slider contains enough 
+        slides so scrolling can take place. False otherwise.
+      </p><code class="inline"><span class="blue">gotoRight()</span><span> : </span><span class="green">void</span></code>
+      <p class="code-desc">
+        Advances the slider one slide to the right. If the end is reached 
+        the slider will jump to the beginning.
+      </p><code class="inline"><span class="blue">gotoLeft()</span><span> : </span><span class="green">void</span></code>
+      <p class="code-desc">
+        Advances the slider one slide to the left. If the beginning is reached 
+        the slider will jump to the end.
+      </p><code class="inline"> <span class="blue">align(instant</span><span>?: </span><span class="green">boolean</span><span class="blue">)</span><span> : </span><span class="green">void</span></code>
+      <p class="code-desc">
+        Will align the slider to the nearest slide. If instant is set to true, the
+        slider will align without using a smooth animation.
+      </p><code class="inline"><span class="blue">getElementPerPageAmount()</span><span> : </span><span class="green">number</span></code>
+      <p class="code-desc">Will return the number of elements that are visible per slide</p><code class="inline"> <span class="blue">gotoElement(el</span><span>: </span><span class="green">HTMLElement</span><span> | </span><span class="green">number</span><span>, </span><span class="blue">instant</span><span>?: </span><span class="green">boolean</span><span class="blue">)</span><span> : </span><span class="green">void</span></code>
+      <p class="code-desc">
+        Jump to the given element, it can either be a HTMLElement or the index of the
+        slide. If instant is set to true, there will be no animation.
+      </p><code class="inline"> <span class="blue">checkIfEndStartReached()</span><span>: {</span><span class="blue">isAtStart</span><span>: </span><span class="green">boolean; </span><span class="blue">isAtEnd</span><span>: </span><span class="green">boolean</span><span>}</span></code>
+      <p class="code-desc">
+        Returns an object with two booleans that state if the end or the start 
+        of the slider is reached
+      </p><code class="inline"> <span class="blue">getClosestElement()</span><span>: {</span><span class="blue">index</span><span>: </span><span class="green">number; </span><span class="blue">el</span><span>: </span><span class="green">HTMLElement</span><span>}</span></code>
+      <p class="code-desc">
+        Returns an object containing the index of the closest Element and
+        the HTMLElement
+      </p>
       <h2>Default Slider</h2>
       <div class="container"> 
         <div class="button prev">&lt; </div>
@@ -79,6 +110,13 @@ const mySlider = new Scroller(".slider", {
           <div class="slide"><a href="https://wog.ch">0</a></div>
           <div class="slide"><a href="https://wog.ch">1</a></div>
           <div class="slide"><a href="https://wog.ch">2</a></div>
+          <div class="slide"><a href="https://wog.ch">3</a></div>
+          <div class="slide"><a href="https://wog.ch">4</a></div>
+          <div class="slide"><a href="https://wog.ch">5</a></div>
+          <div class="slide"><a href="https://wog.ch">6</a></div>
+          <div class="slide"><a href="https://wog.ch">7</a></div>
+          <div class="slide"><a href="https://wog.ch">8</a></div>
+          <div class="slide"><a href="https://wog.ch">9</a></div>
         </section>
       </div>
       <h2>Cutoff Element</h2>

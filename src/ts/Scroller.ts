@@ -108,12 +108,21 @@ export default class Scroller {
    * @param className The classname to add to the slider if no scrolling can take place
    */
   public setNoScrollableClass(className: string): void {
-    const pos = this.checkIfEndStartReached();
-    if (pos.isAtEnd && pos.isAtStart) {
+    if (!this.isScrollable()) {
       this.container.classList.add(className);
     } else {
       this.container.classList.remove(className);
     }
+  }
+
+  /**
+   * Will check if the slider is able to scroll due to amount of slides
+   * and will return either true or false
+   * @returns true if the slider can be scrolled, false otherwise
+   */
+  public isScrollable(): boolean {
+    const pos = this.checkIfEndStartReached();
+    return !pos.isAtEnd || !pos.isAtStart;
   }
 
   /**

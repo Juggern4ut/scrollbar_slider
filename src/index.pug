@@ -141,13 +141,106 @@ html(lang="en")
       p.code-desc
         | A class that the slider will get as soon as the slider is no longer scrollable (due to lack of slides)
 
+      h2 Methods 
+      p
+        | You can use the following methods to customize your Scroller
+
+      br
+
+      code.inline
+        span.blue isScrollable()
+        span  : 
+        span.green boolean
+      p.code-desc
+        | Will return true if the slider contains enough 
+        | slides so scrolling can take place. False otherwise.
+
+      code.inline
+        span.blue gotoRight()
+        span  : 
+        span.green void
+      p.code-desc
+        | Advances the slider one slide to the right. If the end is reached 
+        | the slider will jump to the beginning.
+
+      code.inline
+        span.blue gotoLeft()
+        span  : 
+        span.green void
+      p.code-desc
+        | Advances the slider one slide to the left. If the beginning is reached 
+        | the slider will jump to the end.
+
+      code.inline 
+        span.blue align(instant
+        span ?: 
+        span.green boolean
+        span.blue )
+        span  : 
+        span.green void
+      p.code-desc
+        | Will align the slider to the nearest slide. If instant is set to true, the
+        | slider will align without using a smooth animation.
+
+      code.inline
+        span.blue getElementPerPageAmount()
+        span  : 
+        span.green number
+      p.code-desc
+        | Will return the number of elements that are visible per slide
+
+      code.inline 
+        span.blue gotoElement(el
+        span : 
+        span.green HTMLElement
+        span  | 
+        span.green number
+        span , 
+        span.blue instant
+        span ?: 
+        span.green boolean
+        span.blue )
+        span  : 
+        span.green void
+      p.code-desc
+        | Jump to the given element, it can either be a HTMLElement or the index of the
+        | slide. If instant is set to true, there will be no animation.
+
+      code.inline 
+        span.blue checkIfEndStartReached()
+        span : {
+        span.blue isAtStart
+        span : 
+        span.green boolean; 
+        span.blue isAtEnd
+        span : 
+        span.green boolean
+        span }
+      p.code-desc
+        | Returns an object with two booleans that state if the end or the start 
+        | of the slider is reached
+
+      code.inline 
+        span.blue getClosestElement()
+        span : {
+        span.blue index
+        span : 
+        span.green number; 
+        span.blue el
+        span : 
+        span.green HTMLElement
+        span }
+      p.code-desc
+        | Returns an object containing the index of the closest Element and
+        | the HTMLElement
+
       h2 Default Slider
       .container 
         .button.prev &lt; 
         .button.next &gt;
         section.slider#slider 
           - var n = 0;
-          while n < 3
+          while n < 10
             .slide
               a(href="https://wog.ch")= n++
 
