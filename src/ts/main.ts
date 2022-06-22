@@ -4,6 +4,7 @@ import Scroller from "./Scroller";
 
 interface NamespaceWindow extends Window {
   scrollers: Scroller[];
+  pgSlider: Scroller;
 }
 declare var window: NamespaceWindow;
 
@@ -26,7 +27,7 @@ window.onload = () => {
           prevPageHandler: prev,
           nextPageHandler: next,
           mouseScrolling: true,
-          autoplay: 0,
+          autoplay: 2000,
         })
       );
     } else {
@@ -36,10 +37,38 @@ window.onload = () => {
           prevPageHandler: prev,
           nextPageHandler: next,
           mouseScrolling: true,
+          mouseDragCallback: (o: any) => console.log(o),
           autoAlign: true,
           noScrollClass: "cantScrollMate",
         })
       );
     }
   });
+
+  const playgroundSlider = document.querySelector(".slider2") as HTMLElement;
+
+  const prev = playgroundSlider.parentElement?.querySelector(
+    ".prev"
+  ) as HTMLElement;
+  const next = playgroundSlider.parentElement?.querySelector(
+    ".next"
+  ) as HTMLElement;
+
+  const pgSlider = new Scroller(playgroundSlider, {
+    desktopClass: "hideScrollbar",
+    mouseScrolling: true,
+    prevPageHandler: prev,
+    nextPageHandler: next,
+    autoAlign: true,
+  });
+
+  pgSlider.mouseDragCallback = (t: Scroller, offset: any) => {
+    if (offset > 50) {
+      t.gotoRight();
+      t.isDragging = false;
+    } else if (offset < -50) {
+      t.gotoLeft();
+      t.isDragging = false;
+    }
+  };
 };

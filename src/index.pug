@@ -21,9 +21,9 @@ html(lang="en")
         code.language-html
           | #{'<div class="next"> > </div>'}
           | #{'<section class="slider">'}
-          |   #{'<div class="slide">0</slide>'}
-          |   #{'<div class="slide">1</slide>'}
-          |   #{'<div class="slide">2</slide>'}
+          |   #{'<div class="slide">0</div>'}
+          |   #{'<div class="slide">1</div>'}
+          |   #{'<div class="slide">2</div>'}
           |   #{'...'}
           | #{'</section>'}
           | #{'<div class="prev"> < </div>'}
@@ -275,6 +275,18 @@ html(lang="en")
           while n < 10
             .slide
               a(href="https://wog.ch")= n++
+
+      h2 Snap into place
+      .container
+        .button.prev &lt; 
+        .button.next &gt;
+        section.slider2.slider--single
+          - var n = 0;
+          while n < 10
+            .slide
+              a(href="https://wog.ch")= n++
+          .slide
+            img(src="https://placekitten.com/400/300" alt="Kitten")
 
     footer 
       a(target="_blank" href="https://github.com/Juggern4ut/scrollbar_slider") Vertical Slider on Github

@@ -9,6 +9,8 @@ interface ScrollerOptions {
   autoplay?: number;
   /** If set to true, will allow scrolling via mouse drag on desktop */
   mouseScrolling?: boolean;
+  /** Function that is called whenever the slider is dragged with the mouse */
+  mouseDragCallback?: Function;
   /** A function that is called when manual draggign ends */
   stopDragHandler?: Function;
   /** Automatically align the slider after scrolling or resizing if set to true */
@@ -32,6 +34,10 @@ export default class Scroller {
   currentElement: number = 0;
   /** Will be called when the slide changes */
   onChange: Function = () => null;
+  /** Function that is called whenever the slider is dragged with the mouse */
+  mouseDragCallback?: Function;
+  /** A Boolean representing if the user is currently dragging the slider */
+  isDragging?: boolean;
 
   /**
    * Will create a new horizontal slider on the given selector using
@@ -79,6 +85,7 @@ export default class Scroller {
 
     if (options?.mouseScrolling) {
       this.initializeMouseScrolling();
+      this.mouseDragCallback = options.mouseDragCallback;
     }
 
     if (options?.stopDragHandler) {
@@ -182,7 +189,7 @@ export default class Scroller {
 
     let staticClickPosX: number;
     let clickPosX: number;
-    let dragging: boolean = false;
+    this.isDragging = false;
 
     /** Prevent selection on container due to unwanted effects */
     this.container.style.userSelect = "none";
@@ -196,15 +203,20 @@ export default class Scroller {
     this.container.addEventListener("mousedown", (e: MouseEvent) => {
       staticClickPosX = e.clientX;
       clickPosX = e.clientX;
-      dragging = true;
+      this.isDragging = true;
     });
 
     document.addEventListener("mousemove", (e: MouseEvent) => {
-      if (!dragging) return;
+      if (!this.isDragging) return;
       e.preventDefault();
       const delta = clickPosX - e.clientX;
       this.container.style.scrollBehavior = "auto";
       this.container.scrollBy({ left: delta, behavior: "auto" });
+
+      if (this.mouseDragCallback) {
+        this.mouseDragCallback(this, staticClickPosX - e.clientX);
+      }
+
       clickPosX = e.clientX;
     });
 
@@ -214,11 +226,11 @@ export default class Scroller {
     });
 
     document.addEventListener("mouseup", (e: MouseEvent) => {
-      if (dragging) {
+      if (this.isDragging) {
         if (this.autoAlign) this.align();
         this.stopDragHandler(this);
       }
-      dragging = false;
+      this.isDragging = false;
     });
   }
 

@@ -50,6 +50,7 @@ var Scroller = /** @class */ (function () {
         }
         if (options === null || options === void 0 ? void 0 : options.mouseScrolling) {
             this.initializeMouseScrolling();
+            this.mouseDragCallback = options.mouseDragCallback;
         }
         if (options === null || options === void 0 ? void 0 : options.stopDragHandler) {
             this.stopDragHandler = options === null || options === void 0 ? void 0 : options.stopDragHandler;
@@ -142,7 +143,7 @@ var Scroller = /** @class */ (function () {
             return;
         var staticClickPosX;
         var clickPosX;
-        var dragging = false;
+        this.isDragging = false;
         /** Prevent selection on container due to unwanted effects */
         this.container.style.userSelect = "none";
         var prevElements = this.container.querySelectorAll("a, img");
@@ -153,15 +154,18 @@ var Scroller = /** @class */ (function () {
         this.container.addEventListener("mousedown", function (e) {
             staticClickPosX = e.clientX;
             clickPosX = e.clientX;
-            dragging = true;
+            _this.isDragging = true;
         });
         document.addEventListener("mousemove", function (e) {
-            if (!dragging)
+            if (!_this.isDragging)
                 return;
             e.preventDefault();
             var delta = clickPosX - e.clientX;
             _this.container.style.scrollBehavior = "auto";
             _this.container.scrollBy({ left: delta, behavior: "auto" });
+            if (_this.mouseDragCallback) {
+                _this.mouseDragCallback(_this, staticClickPosX - e.clientX);
+            }
             clickPosX = e.clientX;
         });
         this.container.addEventListener("click", function (e) {
@@ -170,12 +174,12 @@ var Scroller = /** @class */ (function () {
                 e.preventDefault();
         });
         document.addEventListener("mouseup", function (e) {
-            if (dragging) {
+            if (_this.isDragging) {
                 if (_this.autoAlign)
                     _this.align();
                 _this.stopDragHandler(_this);
             }
-            dragging = false;
+            _this.isDragging = false;
         });
     };
     /**
