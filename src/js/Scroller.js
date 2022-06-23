@@ -31,10 +31,16 @@ var Scroller = /** @class */ (function () {
             this.container.classList.add(options.desktopClass);
         }
         if (options === null || options === void 0 ? void 0 : options.nextPageHandler) {
-            options.nextPageHandler.addEventListener("click", function () { return _this.gotoRight(); });
+            options.nextPageHandler.addEventListener("click", function () {
+                _this.gotoRight();
+                _this.resetAutoplay();
+            });
         }
         if (options === null || options === void 0 ? void 0 : options.prevPageHandler) {
-            options.prevPageHandler.addEventListener("click", function () { return _this.gotoLeft(); });
+            options.prevPageHandler.addEventListener("click", function () {
+                _this.gotoLeft();
+                _this.resetAutoplay();
+            });
         }
         if (options === null || options === void 0 ? void 0 : options.autoAlign) {
             this.autoAlign = options.autoAlign;
@@ -283,6 +289,16 @@ var Scroller = /** @class */ (function () {
     Scroller.prototype.clearAutoplay = function () {
         window.clearInterval(this.autoplayInterval);
         this.autoplayInterval = 0;
+    };
+    /**
+     * Can be used to restart the autoplay interval. This will be used for
+     * example when the next/prev-Buttons are clicked
+     */
+    Scroller.prototype.resetAutoplay = function () {
+        if (this.autoplayDuration && this.autoplayDuration > 0) {
+            this.clearAutoplay();
+            this.initAutoplay();
+        }
     };
     return Scroller;
 }());

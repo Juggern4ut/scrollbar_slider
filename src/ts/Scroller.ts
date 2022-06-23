@@ -60,11 +60,17 @@ export default class Scroller {
     }
 
     if (options?.nextPageHandler) {
-      options.nextPageHandler.addEventListener("click", () => this.gotoRight());
+      options.nextPageHandler.addEventListener("click", () => {
+        this.gotoRight();
+        this.resetAutoplay();
+      });
     }
 
     if (options?.prevPageHandler) {
-      options.prevPageHandler.addEventListener("click", () => this.gotoLeft());
+      options.prevPageHandler.addEventListener("click", () => {
+        this.gotoLeft();
+        this.resetAutoplay();
+      });
     }
 
     if (options?.autoAlign) {
@@ -341,5 +347,16 @@ export default class Scroller {
   private clearAutoplay(): void {
     window.clearInterval(this.autoplayInterval);
     this.autoplayInterval = 0;
+  }
+
+  /**
+   * Can be used to restart the autoplay interval. This will be used for
+   * example when the next/prev-Buttons are clicked
+   */
+  public resetAutoplay(): void {
+    if (this.autoplayDuration && this.autoplayDuration > 0) {
+      this.clearAutoplay();
+      this.initAutoplay();
+    }
   }
 }

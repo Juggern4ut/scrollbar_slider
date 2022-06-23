@@ -239,3 +239,13 @@ main {
   scrollbar-width: none; }
   .hideScrollbar::-webkit-scrollbar {
     display: none; }
+
+.bar {
+  width: 100%;
+  height: 8px;
+  background-color: #3ac9a2;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 15;
+  border-bottom: 1px solid #fff; }

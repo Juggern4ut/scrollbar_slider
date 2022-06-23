@@ -6,10 +6,28 @@ html(lang="en")
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
     link(rel="stylesheet" href="./css/main.css")
     script(src="./js/main.js") 
-    title Simple vertical Scroller 
-  body 
+    title Scrollerer 
+  body
+    div.bar 
     main
-      h1 Simple Vertical Scroller 
+      h1 Scrollerer
+
+      h2 What?
+      p 
+        | This simple scroller is easy to use, works on ALL devices and browsers and uses your 
+        | CSS and yours only. It is fast and comes in at only 3 Kb if gziped.
+
+      h2 What's the catch?
+      p 
+        | Since this slider offers all the support with none of the file-size, there needs to be some
+        | work on your side aswell. Scrollerer offers several options and hooks but you need to use them 
+        | yourself. If you are not a web developer, this might not be the slider for you.
+
+      h2 Why?
+      p 
+        | There are tons of JavaScript/TypeScript sliders out there but many suffer from the same thing: 
+        | They offer tons of features nobody ever uses, they rely on their own CSS and if you want to change 
+        | something, you'll likely get frustrated quickly.
 
       h2 HTML Setup
       p 
@@ -33,7 +51,7 @@ html(lang="en")
         | Now the container just needs to be a flex-container and have 
         | no overflow on the x axis. The Slides just need a width relative 
         | to the container size and flex-shrink set to 0 so they adapt to 
-        | the width correctly
+        | the width correctly.
 
       pre
         code.language-css
@@ -141,6 +159,22 @@ html(lang="en")
       p.code-desc
         | A class that the slider will get as soon as the slider is no longer scrollable (due to lack of slides)
 
+      code.inline
+        span.blue mouseDragCallback
+        span ? : 
+        span.green Function
+        span (
+        span.blue this
+        span : 
+        span.green Scroller
+        span , 
+        span.blue offset
+        span : 
+        span.green number
+        span )
+      p.code-desc
+        | This function will be called whenever the slider is dragged. It passes the slider and the offset of the current drag
+
       h2 Methods 
       p
         | You can use the following methods to customize your Scroller
@@ -207,32 +241,39 @@ html(lang="en")
         | slide. If instant is set to true, there will be no animation.
 
       code.inline 
-        span.blue checkIfEndStartReached()
-        span : {
+        span.blue checkIfEndStartReached() 
+        span : { 
         span.blue isAtStart
         span : 
         span.green boolean; 
         span.blue isAtEnd
         span : 
-        span.green boolean
+        span.green boolean 
         span }
       p.code-desc
         | Returns an object with two booleans that state if the end or the start 
         | of the slider is reached
 
       code.inline 
-        span.blue getClosestElement()
-        span : {
+        span.blue getClosestElement() 
+        span : { 
         span.blue index
         span : 
         span.green number; 
         span.blue el
         span : 
-        span.green HTMLElement
+        span.green HTMLElement 
         span }
       p.code-desc
         | Returns an object containing the index of the closest Element and
         | the HTMLElement
+
+      code.inline 
+        span.blue resetAutoplay()
+        span  : 
+        span.green number
+      p.code-desc
+        | Will stop the autoplay interval and restart it.
 
       h2 Default Slider
       .container 
