@@ -17,6 +17,10 @@ interface ScrollerOptions {
   autoAlign?: boolean;
   /** This class will be applied to the container if there are too few slides to scroll the slider */
   noScrollClass?: string;
+  /** If mouseScrolling is active the slider will instantly jump to the next/previous slide if the distance set here is reached */
+  dragSnapDistance?: number;
+  /** If set to true, the slideshow will not drag along with the cursor but jump straight to the next slide after the dragSnapDistance is reached */
+  dragSnapHard?: boolean;
 }
 
 export default class Scroller {
@@ -38,6 +42,10 @@ export default class Scroller {
   mouseDragCallback?: Function;
   /** A Boolean representing if the user is currently dragging the slider */
   isDragging?: boolean;
+  /** If mouseScrolling is active the slider will instantly jump to the next/previous slide if the distance set here is reached */
+  snapDragDistance?: number;
+  /** If set to true, the slideshow will not drag along with the cursor but jump straight to the next slide after the dragSnapDistance is reached */
+  snapDragHard?: boolean;
 
   /**
    * Will create a new horizontal slider on the given selector using
@@ -92,6 +100,10 @@ export default class Scroller {
     if (options?.mouseScrolling) {
       this.initializeMouseScrolling();
       this.mouseDragCallback = options.mouseDragCallback;
+      if (options?.dragSnapDistance) {
+        this.snapDragDistance = options.dragSnapDistance;
+        this.snapDragHard = options.dragSnapHard;
+      }
     }
 
     if (options?.stopDragHandler) {
@@ -216,11 +228,26 @@ export default class Scroller {
       if (!this.isDragging) return;
       e.preventDefault();
       const delta = clickPosX - e.clientX;
+      const staticDelta = staticClickPosX - e.clientX;
       this.container.style.scrollBehavior = "auto";
-      this.container.scrollBy({ left: delta, behavior: "auto" });
+
+      if (!this.snapDragHard) {
+        this.container.scrollBy({ left: delta, behavior: "auto" });
+      }
 
       if (this.mouseDragCallback) {
         this.mouseDragCallback(this, staticClickPosX - e.clientX);
+      }
+
+      if (this.snapDragDistance && staticDelta > this.snapDragDistance) {
+        this.gotoRight();
+        this.isDragging = false;
+      } else if (
+        this.snapDragDistance &&
+        staticDelta < this.snapDragDistance * -1
+      ) {
+        this.gotoLeft();
+        this.isDragging = false;
       }
 
       clickPosX = e.clientX;

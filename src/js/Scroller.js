@@ -57,6 +57,10 @@ var Scroller = /** @class */ (function () {
         if (options === null || options === void 0 ? void 0 : options.mouseScrolling) {
             this.initializeMouseScrolling();
             this.mouseDragCallback = options.mouseDragCallback;
+            if (options === null || options === void 0 ? void 0 : options.dragSnapDistance) {
+                this.snapDragDistance = options.dragSnapDistance;
+                this.snapDragHard = options.dragSnapHard;
+            }
         }
         if (options === null || options === void 0 ? void 0 : options.stopDragHandler) {
             this.stopDragHandler = options === null || options === void 0 ? void 0 : options.stopDragHandler;
@@ -167,10 +171,22 @@ var Scroller = /** @class */ (function () {
                 return;
             e.preventDefault();
             var delta = clickPosX - e.clientX;
+            var staticDelta = staticClickPosX - e.clientX;
             _this.container.style.scrollBehavior = "auto";
-            _this.container.scrollBy({ left: delta, behavior: "auto" });
+            if (!_this.snapDragHard) {
+                _this.container.scrollBy({ left: delta, behavior: "auto" });
+            }
             if (_this.mouseDragCallback) {
                 _this.mouseDragCallback(_this, staticClickPosX - e.clientX);
+            }
+            if (_this.snapDragDistance && staticDelta > _this.snapDragDistance) {
+                _this.gotoRight();
+                _this.isDragging = false;
+            }
+            else if (_this.snapDragDistance &&
+                staticDelta < _this.snapDragDistance * -1) {
+                _this.gotoLeft();
+                _this.isDragging = false;
             }
             clickPosX = e.clientX;
         });

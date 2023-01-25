@@ -60,15 +60,8 @@ window.onload = () => {
     prevPageHandler: prev,
     nextPageHandler: next,
     autoAlign: true,
+    noScrollClass: "no-scroll",
+    dragSnapDistance: 50,
+    dragSnapHard: true,
   });
-
-  pgSlider.mouseDragCallback = (t: Scroller, offset: any) => {
-    if (offset > 50) {
-      t.gotoRight();
-      t.isDragging = false;
-    } else if (offset < -50) {
-      t.gotoLeft();
-      t.isDragging = false;
-    }
-  };
 };

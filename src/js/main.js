@@ -47,16 +47,9 @@ window.onload = function () {
         prevPageHandler: prev,
         nextPageHandler: next,
         autoAlign: true,
+        noScrollClass: "no-scroll",
+        dragSnapDistance: 50,
+        dragSnapHard: true,
     });
-    pgSlider.mouseDragCallback = function (t, offset) {
-        if (offset > 50) {
-            t.gotoRight();
-            t.isDragging = false;
-        }
-        else if (offset < -50) {
-            t.gotoLeft();
-            t.isDragging = false;
-        }
-    };
 };
 //# sourceMappingURL=main.js.map
