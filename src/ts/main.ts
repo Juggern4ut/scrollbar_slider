@@ -34,6 +34,7 @@ window.onload = () => {
       window.scrollers.push(
         new Scroller(slider, {
           desktopClass: "hideScrollbar",
+          elementsToScroll: 1,
           prevPageHandler: prev,
           nextPageHandler: next,
           mouseScrolling: true,
@@ -63,5 +64,6 @@ window.onload = () => {
     noScrollClass: "no-scroll",
     dragSnapDistance: 50,
     dragSnapHard: true,
+    elementsToScroll: 1,
   });
 };

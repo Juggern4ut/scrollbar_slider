@@ -21,6 +21,8 @@ interface ScrollerOptions {
   dragSnapDistance?: number;
   /** If set to true, the slideshow will not drag along with the cursor but jump straight to the next slide after the dragSnapDistance is reached */
   dragSnapHard?: boolean;
+  /** Amount of elements to slide using the gotoLeft and gotoRight methods */
+  elementsToScroll?: number;
 }
 
 export default class Scroller {
@@ -46,6 +48,8 @@ export default class Scroller {
   snapDragDistance?: number;
   /** If set to true, the slideshow will not drag along with the cursor but jump straight to the next slide after the dragSnapDistance is reached */
   snapDragHard?: boolean;
+  /** Amount of elements to slide using the gotoLeft and gotoRight methods */
+  elementsToScroll?: number;
 
   /**
    * Will create a new horizontal slider on the given selector using
@@ -65,6 +69,10 @@ export default class Scroller {
 
     if (options?.desktopClass && window.ontouchstart === undefined) {
       this.container.classList.add(options.desktopClass);
+    }
+
+    if (options?.elementsToScroll) {
+      this.elementsToScroll = options.elementsToScroll;
     }
 
     if (options?.nextPageHandler) {
@@ -159,7 +167,7 @@ export default class Scroller {
     if (isAtEnd) return this.gotoElement(0);
 
     const closest = this.getClosestElement().index;
-    const elementsPP = this.getElementPerPageAmount();
+    const elementsPP = this.elementsToScroll || this.getElementPerPageAmount();
     const currentPage = Math.floor(closest / elementsPP) * elementsPP;
 
     if (currentPage + elementsPP >= this.container.children.length) {
@@ -178,7 +186,7 @@ export default class Scroller {
     if (isAtStart) return this.gotoElement(this.container.children.length - 1);
 
     const closest = this.getClosestElement().index;
-    const elementsPP = this.getElementPerPageAmount();
+    const elementsPP = this.elementsToScroll || this.getElementPerPageAmount();
     const currentPage = Math.ceil(closest / elementsPP) * elementsPP;
 
     if (currentPage - elementsPP < 0) {
@@ -279,7 +287,7 @@ export default class Scroller {
 
   /**
    * Will calculate the amount of elements that can be shown in the
-   * scroller simoutaniusly
+   * scroller simultaneously
    * @returns The number of elements that completely fit into a slide
    */
   private getElementPerPageAmount(): number {

@@ -30,6 +30,9 @@ var Scroller = /** @class */ (function () {
         if ((options === null || options === void 0 ? void 0 : options.desktopClass) && window.ontouchstart === undefined) {
             this.container.classList.add(options.desktopClass);
         }
+        if (options === null || options === void 0 ? void 0 : options.elementsToScroll) {
+            this.elementsToScroll = options.elementsToScroll;
+        }
         if (options === null || options === void 0 ? void 0 : options.nextPageHandler) {
             options.nextPageHandler.addEventListener("click", function () {
                 _this.gotoRight();
@@ -111,7 +114,7 @@ var Scroller = /** @class */ (function () {
         if (isAtEnd)
             return this.gotoElement(0);
         var closest = this.getClosestElement().index;
-        var elementsPP = this.getElementPerPageAmount();
+        var elementsPP = this.elementsToScroll || this.getElementPerPageAmount();
         var currentPage = Math.floor(closest / elementsPP) * elementsPP;
         if (currentPage + elementsPP >= this.container.children.length) {
             return this.gotoElement(0);
@@ -127,7 +130,7 @@ var Scroller = /** @class */ (function () {
         if (isAtStart)
             return this.gotoElement(this.container.children.length - 1);
         var closest = this.getClosestElement().index;
-        var elementsPP = this.getElementPerPageAmount();
+        var elementsPP = this.elementsToScroll || this.getElementPerPageAmount();
         var currentPage = Math.ceil(closest / elementsPP) * elementsPP;
         if (currentPage - elementsPP < 0) {
             return this.gotoElement(this.container.children.length - 1);
@@ -217,7 +220,7 @@ var Scroller = /** @class */ (function () {
     };
     /**
      * Will calculate the amount of elements that can be shown in the
-     * scroller simoutaniusly
+     * scroller simultaneously
      * @returns The number of elements that completely fit into a slide
      */
     Scroller.prototype.getElementPerPageAmount = function () {

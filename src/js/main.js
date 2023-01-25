@@ -29,6 +29,7 @@ window.onload = function () {
         else {
             window.scrollers.push(new Scroller_1.default(slider, {
                 desktopClass: "hideScrollbar",
+                elementsToScroll: 1,
                 prevPageHandler: prev,
                 nextPageHandler: next,
                 mouseScrolling: true,
@@ -50,6 +51,7 @@ window.onload = function () {
         noScrollClass: "no-scroll",
         dragSnapDistance: 50,
         dragSnapHard: true,
+        elementsToScroll: 1,
     });
 };
 //# sourceMappingURL=main.js.map
