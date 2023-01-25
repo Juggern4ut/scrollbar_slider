@@ -12,58 +12,88 @@ smoothscroll.polyfill();
 
 window.onload = () => {
   Prism.highlightAll();
-  const sliders = document.querySelectorAll(".slider");
-  window.scrollers = [];
 
-  sliders.forEach((s) => {
-    const slider = s as HTMLElement;
-    const prev = slider.parentElement?.querySelector(".prev") as HTMLElement;
-    const next = slider.parentElement?.querySelector(".next") as HTMLElement;
+  initDefaultSlider();
+  initMouseDragSlider();
+  initMouseDragAlignSlider();
+  initAutoplaySlider();
+  initSnapSlider();
+  initSnapSliderSoft();
+};
 
-    if (slider.classList.contains("slider--autoplay")) {
-      window.scrollers.push(
-        new Scroller(slider, {
-          desktopClass: "hideScrollbar",
-          prevPageHandler: prev,
-          nextPageHandler: next,
-          mouseScrolling: true,
-          autoplay: 2000,
-        })
-      );
-    } else {
-      window.scrollers.push(
-        new Scroller(slider, {
-          desktopClass: "hideScrollbar",
-          elementsToScroll: 1,
-          prevPageHandler: prev,
-          nextPageHandler: next,
-          mouseScrolling: true,
-          mouseDragCallback: (o: any) => console.log(o),
-          autoAlign: true,
-          noScrollClass: "cantScrollMate",
-        })
-      );
-    }
-  });
-
-  const playgroundSlider = document.querySelector(".slider2") as HTMLElement;
-
-  const prev = playgroundSlider.parentElement?.querySelector(
-    ".prev"
-  ) as HTMLElement;
-  const next = playgroundSlider.parentElement?.querySelector(
-    ".next"
-  ) as HTMLElement;
-
-  const pgSlider = new Scroller(playgroundSlider, {
-    desktopClass: "hideScrollbar",
-    mouseScrolling: true,
-    prevPageHandler: prev,
+const initDefaultSlider = () => {
+  const s = document.querySelector(".default-slider") as HTMLElement;
+  const prev = s?.parentElement?.querySelector(".prev") as HTMLElement;
+  const next = s?.parentElement?.querySelector(".next") as HTMLElement;
+  new Scroller(s, {
     nextPageHandler: next,
+    prevPageHandler: prev,
+    desktopClass: "hideScrollbar",
+  });
+};
+
+const initMouseDragSlider = () => {
+  const s = document.querySelector(".mouse-slider") as HTMLElement;
+  const prev = s?.parentElement?.querySelector(".prev") as HTMLElement;
+  const next = s?.parentElement?.querySelector(".next") as HTMLElement;
+  new Scroller(s, {
+    nextPageHandler: next,
+    prevPageHandler: prev,
+    mouseScrolling: true,
+    desktopClass: "hideScrollbar",
+  });
+};
+
+const initMouseDragAlignSlider = () => {
+  const s = document.querySelector(".mouse-slider-align") as HTMLElement;
+  const prev = s?.parentElement?.querySelector(".prev") as HTMLElement;
+  const next = s?.parentElement?.querySelector(".next") as HTMLElement;
+  new Scroller(s, {
+    nextPageHandler: next,
+    prevPageHandler: prev,
+    mouseScrolling: true,
     autoAlign: true,
-    noScrollClass: "no-scroll",
-    dragSnapDistance: 50,
+    desktopClass: "hideScrollbar",
+  });
+};
+
+const initAutoplaySlider = () => {
+  const s = document.querySelector(".autoplay-slider") as HTMLElement;
+  const prev = s?.parentElement?.querySelector(".prev") as HTMLElement;
+  const next = s?.parentElement?.querySelector(".next") as HTMLElement;
+  new Scroller(s, {
+    nextPageHandler: next,
+    prevPageHandler: prev,
+    mouseScrolling: true,
+    autoplay: 2000,
+    desktopClass: "hideScrollbar",
+  });
+};
+
+const initSnapSlider = () => {
+  const s = document.querySelector(".snap-slider") as HTMLElement;
+  const prev = s?.parentElement?.querySelector(".prev") as HTMLElement;
+  const next = s?.parentElement?.querySelector(".next") as HTMLElement;
+  new Scroller(s, {
+    nextPageHandler: next,
+    prevPageHandler: prev,
+    mouseScrolling: true,
+    dragSnapDistance: 100,
     dragSnapHard: true,
-    elementsToScroll: 1,
+    desktopClass: "hideScrollbar",
+  });
+};
+
+const initSnapSliderSoft = () => {
+  const s = document.querySelector(".snap-slider-soft") as HTMLElement;
+  const prev = s?.parentElement?.querySelector(".prev") as HTMLElement;
+  const next = s?.parentElement?.querySelector(".next") as HTMLElement;
+  new Scroller(s, {
+    nextPageHandler: next,
+    prevPageHandler: prev,
+    mouseScrolling: true,
+    dragSnapDistance: 100,
+    dragSnapHard: false,
+    desktopClass: "hideScrollbar",
   });
 };

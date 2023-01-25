@@ -33,7 +33,7 @@ html(lang="en")
       p 
         | Create a simple container and place the elements you want your slider
         | to contain directly inside of it. The buttons can be placed wherever you 
-        | want since they are only needed as handlers. I like to place them around 
+        | want (outside of the slider) since they are only needed as handlers. I like to place them around 
         | the slider.
       pre
         code.language-html
@@ -125,7 +125,7 @@ html(lang="en")
         span.green number
         span ;
       p.code-desc
-        | After the given amount of milliseconds wil automatically advance to next slide.
+        | After the given amount of milliseconds will automatically advance to next slide.
 
       code.inline
         span.blue mouseScrolling
@@ -141,7 +141,7 @@ html(lang="en")
         span.green Function
         span ;
       p.code-desc
-        | A function that is called when manual draggign ends
+        | A function that is called when manual dragging ends
 
       code.inline
         span.blue autoAlign
@@ -171,13 +171,29 @@ html(lang="en")
         span.blue offset
         span : 
         span.green number
-        span )
+        span );
       p.code-desc
         | This function will be called whenever the slider is dragged. It passes the slider and the offset of the current drag
 
+      code.inline
+        span.blue dragSnapDistance
+        span ? : 
+        span.green number
+        span ;
+      p.code-desc
+        | The distance a user has to drag his/her mouse until the slideshow will directly skip to the next slide. Needs to be used with mouseScrolling.
+
+      code.inline
+        span.blue dragSnapHard
+        span ? : 
+        span.green boolean
+        span ;
+      p.code-desc
+        | If set to true, the drag animation will no longer occur and the slider will skip slides instantly when the dragSnapDistance is reached.
+
       h2 Methods 
       p
-        | You can use the following methods to customize your Scroller
+        | You can use the following methods to customize your Scroller and use its features.
 
       br
 
@@ -275,31 +291,117 @@ html(lang="en")
       p.code-desc
         | Will stop the autoplay interval and restart it.
 
-      h2 Default Slider
+
+      h2 Demo
+      h3 Default Slider 
+      p A default slider. The only option set is the handlers to change slides.
+
+      pre
+        code.language-js
+          | // This selection of the elements will later be omitted
+          | const s = document.querySelector(".default-slider");
+          | const prev = s.parentElement.querySelector(".prev");
+          | const next = s.parentElement.querySelector(".next");
+          |
+          | new Scroller(s, {
+          |   prevPageHandler: prev,
+          |   nextPageHandler: next,
+          | });
+
       .container 
         .button.prev &lt; 
         .button.next &gt;
-        section.slider#slider 
+        section.slider.default-slider 
           - var n = 0;
           while n < 10
             .slide
               a(href="https://wog.ch")= n++
 
-      h2 Cutoff Element
+
+      h3 Mouse scrolling
+      p By simply passing the mouseScrolling option, we can now change slides using the mouse to drag the slides around.
+
+      pre
+        code.language-js
+          | // ...
+          | new Scroller(s, {
+          |   prevPageHandler: prev,
+          |   nextPageHandler: next,
+          |   mouseScrolling: true
+          | });
+
       .container
         .button.prev &lt; 
         .button.next &gt;
-        section.slider.slider--partial#slider2
+        section.slider.mouse-slider
           - var n = 0;
           while n < 10
             .slide
               a(href="https://wog.ch")= n++
 
-      h2 Single Slides
+      h3 Auto align
+      p Since mouse scolling allows for free scrolling, we might also want to add the 'autoAlign' option so slides snap into place when the user stops dragging.
+
+      pre
+        code.language-js
+          | // ...
+          | new Scroller(s, {
+          |   prevPageHandler: prev,
+          |   nextPageHandler: next,
+          |   mouseScrolling: true,
+          |   autoAlign: true
+          | });
+
       .container
         .button.prev &lt; 
         .button.next &gt;
-        section.slider.slider--single#slider2
+        section.slider.mouse-slider-align
+          - var n = 0;
+          while n < 10
+            .slide
+              a(href="https://wog.ch")= n++
+
+
+      h3 Autoplay
+      p This slideshow will advance itself automatically. If a user interacts with it (by dragging for example) the autoplay will automatically be interrupted and restarted afterwards.
+
+      pre
+        code.language-js
+          | // ...
+          | new Scroller(s, {
+          |   prevPageHandler: prev,
+          |   nextPageHandler: next,
+          |   mouseScrolling: true,
+          |   autoplay: 2000
+          | });
+
+      .container
+        .button.prev &lt; 
+        .button.next &gt;
+        section.slider.autoplay-slider
+          - var n = 0;
+          while n < 10
+            .slide
+              a(href="https://wog.ch")= n++
+
+      h3 Snap into place
+      p Based on the size of the slideshow, one might not want the user to have to drag over 50% of the slide width to advance the slideshow. Using the options 'dragSnapDistance' and 'dragSnapHard' we can create a slider that feels a little bit more natural.
+
+      pre
+        code.language-js
+          | // ...
+          | new Scroller(s, {
+          |   prevPageHandler: prev,
+          |   nextPageHandler: next,
+          |   mouseScrolling: true,
+          |   snapDragDistance: 100,
+          |   snapDragHard: true
+          | });
+      
+      .container
+        .button.prev &lt; 
+        .button.next &gt;
+        section.slider.snap-slider.slider--single
           - var n = 0;
           while n < 10
             .slide
@@ -307,21 +409,13 @@ html(lang="en")
           .slide
             img(src="https://placekitten.com/400/300" alt="Kitten")
 
-      h2 Autoplay
-      .container
-        .button.prev &lt; 
-        .button.next &gt;
-        section.slider.slider--partial.slider--autoplay#slider2
-          - var n = 0;
-          while n < 10
-            .slide
-              a(href="https://wog.ch")= n++
+      h3 Snap into place (soft)
+      p The same slider as above but with 'snapDragHard' set to false
 
-      h2 Snap into place
       .container
         .button.prev &lt; 
         .button.next &gt;
-        section.slider2
+        section.slider.snap-slider-soft.slider--single
           - var n = 0;
           while n < 10
             .slide
@@ -330,5 +424,5 @@ html(lang="en")
             img(src="https://placekitten.com/400/300" alt="Kitten")
 
     footer 
-      a(target="_blank" href="https://github.com/Juggern4ut/scrollbar_slider") Vertical Slider on Github
+      a(target="_blank" href="https://github.com/Juggern4ut/scrollbar_slider") Scrollerer on Github
       a(target="_blank" href="https://github.com/Juggern4ut") Author

@@ -33,7 +33,7 @@
       <p>
          Create a simple container and place the elements you want your slider
         to contain directly inside of it. The buttons can be placed wherever you 
-        want since they are only needed as handlers. I like to place them around 
+        want (outside of the slider) since they are only needed as handlers. I like to place them around 
         the slider.
       </p>
       <pre><code class="language-html">&lt;div class=&quot;next&quot;&gt; &gt; &lt;/div&gt;
@@ -84,14 +84,16 @@ const mySlider = new Scroller(".slider", {
       <p class="code-desc">The class added to the container of the slider but only on non touch devices</p><code class="inline"><span class="blue">nextPageHandler</span><span>? : </span><span class="green">HTMLElement </span><span>| </span><span class="green">undefined</span><span>;</span></code>
       <p class="code-desc">A HTMLElement that when clicked will progress the slider to the next slide</p><code class="inline"><span class="blue">prevPageHandler</span><span>? : </span><span class="green">HTMLElement </span><span>| </span><span class="green">undefined</span><span>;</span></code>
       <p class="code-desc">A HTMLElement that when clicked will revert the slider to the previous slide</p><code class="inline"><span class="blue">autoplay</span><span>? : </span><span class="green">number</span><span>;</span></code>
-      <p class="code-desc">After the given amount of milliseconds wil automatically advance to next slide.</p><code class="inline"><span class="blue">mouseScrolling</span><span>? : </span><span class="green">boolean</span><span>;</span></code>
+      <p class="code-desc">After the given amount of milliseconds will automatically advance to next slide.</p><code class="inline"><span class="blue">mouseScrolling</span><span>? : </span><span class="green">boolean</span><span>;</span></code>
       <p class="code-desc">If set to true, will allow scrolling via mouse drag on desktop</p><code class="inline"><span class="blue">stopDragHandler</span><span>? : </span><span class="green">Function</span><span>;</span></code>
-      <p class="code-desc">A function that is called when manual draggign ends</p><code class="inline"><span class="blue">autoAlign</span><span>? : </span><span class="green">boolean</span><span>;</span></code>
+      <p class="code-desc">A function that is called when manual dragging ends</p><code class="inline"><span class="blue">autoAlign</span><span>? : </span><span class="green">boolean</span><span>;</span></code>
       <p class="code-desc">Automatically align the slider after scrolling or resizing if set to true</p><code class="inline"><span class="blue">noScrollClass</span><span>? : </span><span class="green">string</span><span>;</span></code>
-      <p class="code-desc">A class that the slider will get as soon as the slider is no longer scrollable (due to lack of slides)</p><code class="inline"><span class="blue">mouseDragCallback</span><span>? : </span><span class="green">Function</span><span>(</span><span class="blue">this</span><span>: </span><span class="green">Scroller</span><span>, </span><span class="blue">offset</span><span>: </span><span class="green">number</span><span>)</span></code>
-      <p class="code-desc">This function will be called whenever the slider is dragged. It passes the slider and the offset of the current drag</p>
+      <p class="code-desc">A class that the slider will get as soon as the slider is no longer scrollable (due to lack of slides)</p><code class="inline"><span class="blue">mouseDragCallback</span><span>? : </span><span class="green">Function</span><span>(</span><span class="blue">this</span><span>: </span><span class="green">Scroller</span><span>, </span><span class="blue">offset</span><span>: </span><span class="green">number</span><span>);</span></code>
+      <p class="code-desc">This function will be called whenever the slider is dragged. It passes the slider and the offset of the current drag</p><code class="inline"><span class="blue">dragSnapDistance</span><span>? : </span><span class="green">number</span><span>;</span></code>
+      <p class="code-desc">The distance a user has to drag his/her mouse until the slideshow will directly skip to the next slide. Needs to be used with mouseScrolling.</p><code class="inline"><span class="blue">dragSnapHard</span><span>? : </span><span class="green">boolean</span><span>;</span></code>
+      <p class="code-desc">If set to true, the drag animation will no longer occur and the slider will skip slides instantly when the dragSnapDistance is reached.</p>
       <h2>Methods </h2>
-      <p>You can use the following methods to customize your Scroller</p><br/><code class="inline"><span class="blue">isScrollable()</span><span> : </span><span class="green">boolean</span></code>
+      <p>You can use the following methods to customize your Scroller and use its features.</p><br/><code class="inline"><span class="blue">isScrollable()</span><span> : </span><span class="green">boolean</span></code>
       <p class="code-desc">
         Will return true if the slider contains enough 
         slides so scrolling can take place. False otherwise.
@@ -122,11 +124,22 @@ const mySlider = new Scroller(".slider", {
         the HTMLElement
       </p><code class="inline"> <span class="blue">resetAutoplay()</span><span> : </span><span class="green">number</span></code>
       <p class="code-desc">Will stop the autoplay interval and restart it.</p>
-      <h2>Default Slider</h2>
+      <h2>Demo</h2>
+      <h3>Default Slider </h3>
+      <p>A default slider. The only option set is the handlers to change slides.</p>
+      <pre><code class="language-js">// This selection of the elements will later be omitted
+const s = document.querySelector(".default-slider");
+const prev = s.parentElement.querySelector(".prev");
+const next = s.parentElement.querySelector(".next");
+
+new Scroller(s, {
+  prevPageHandler: prev,
+  nextPageHandler: next,
+});</code></pre>
       <div class="container"> 
         <div class="button prev">&lt; </div>
         <div class="button next">&gt;</div>
-        <section class="slider" id="slider"> 
+        <section class="slider default-slider"> 
           <div class="slide"><a href="https://wog.ch">0</a></div>
           <div class="slide"><a href="https://wog.ch">1</a></div>
           <div class="slide"><a href="https://wog.ch">2</a></div>
@@ -139,11 +152,18 @@ const mySlider = new Scroller(".slider", {
           <div class="slide"><a href="https://wog.ch">9</a></div>
         </section>
       </div>
-      <h2>Cutoff Element</h2>
+      <h3>Mouse scrolling</h3>
+      <p>By simply passing the mouseScrolling option, we can now change slides using the mouse to drag the slides around.</p>
+      <pre><code class="language-js">// ...
+new Scroller(s, {
+  prevPageHandler: prev,
+  nextPageHandler: next,
+  mouseScrolling: true
+});</code></pre>
       <div class="container">
         <div class="button prev">&lt; </div>
         <div class="button next">&gt;</div>
-        <section class="slider slider--partial" id="slider2">
+        <section class="slider mouse-slider">
           <div class="slide"><a href="https://wog.ch">0</a></div>
           <div class="slide"><a href="https://wog.ch">1</a></div>
           <div class="slide"><a href="https://wog.ch">2</a></div>
@@ -156,11 +176,70 @@ const mySlider = new Scroller(".slider", {
           <div class="slide"><a href="https://wog.ch">9</a></div>
         </section>
       </div>
-      <h2>Single Slides</h2>
+      <h3>Auto align</h3>
+      <p>Since mouse scolling allows for free scrolling, we might also want to add the 'autoAlign' option so slides snap into place when the user stops dragging.</p>
+      <pre><code class="language-js">// ...
+new Scroller(s, {
+  prevPageHandler: prev,
+  nextPageHandler: next,
+  mouseScrolling: true,
+  autoAlign: true
+});</code></pre>
       <div class="container">
         <div class="button prev">&lt; </div>
         <div class="button next">&gt;</div>
-        <section class="slider slider--single" id="slider2">
+        <section class="slider mouse-slider-align">
+          <div class="slide"><a href="https://wog.ch">0</a></div>
+          <div class="slide"><a href="https://wog.ch">1</a></div>
+          <div class="slide"><a href="https://wog.ch">2</a></div>
+          <div class="slide"><a href="https://wog.ch">3</a></div>
+          <div class="slide"><a href="https://wog.ch">4</a></div>
+          <div class="slide"><a href="https://wog.ch">5</a></div>
+          <div class="slide"><a href="https://wog.ch">6</a></div>
+          <div class="slide"><a href="https://wog.ch">7</a></div>
+          <div class="slide"><a href="https://wog.ch">8</a></div>
+          <div class="slide"><a href="https://wog.ch">9</a></div>
+        </section>
+      </div>
+      <h3>Autoplay</h3>
+      <p>This slideshow will advance itself automatically. If a user interacts with it (by dragging for example) the autoplay will automatically be interrupted and restarted afterwards.</p>
+      <pre><code class="language-js">// ...
+new Scroller(s, {
+  prevPageHandler: prev,
+  nextPageHandler: next,
+  mouseScrolling: true,
+  autoplay: 2000
+});</code></pre>
+      <div class="container">
+        <div class="button prev">&lt; </div>
+        <div class="button next">&gt;</div>
+        <section class="slider autoplay-slider">
+          <div class="slide"><a href="https://wog.ch">0</a></div>
+          <div class="slide"><a href="https://wog.ch">1</a></div>
+          <div class="slide"><a href="https://wog.ch">2</a></div>
+          <div class="slide"><a href="https://wog.ch">3</a></div>
+          <div class="slide"><a href="https://wog.ch">4</a></div>
+          <div class="slide"><a href="https://wog.ch">5</a></div>
+          <div class="slide"><a href="https://wog.ch">6</a></div>
+          <div class="slide"><a href="https://wog.ch">7</a></div>
+          <div class="slide"><a href="https://wog.ch">8</a></div>
+          <div class="slide"><a href="https://wog.ch">9</a></div>
+        </section>
+      </div>
+      <h3>Snap into place</h3>
+      <p>Based on the size of the slideshow, one might not want the user to have to drag over 50% of the slide width to advance the slideshow. Using the options 'dragSnapDistance' and 'dragSnapHard' we can create a slider that feels a little bit more natural.</p>
+      <pre><code class="language-js">// ...
+new Scroller(s, {
+  prevPageHandler: prev,
+  nextPageHandler: next,
+  mouseScrolling: true,
+  snapDragDistance: 100,
+  snapDragHard: true
+});</code></pre>
+      <div class="container">
+        <div class="button prev">&lt; </div>
+        <div class="button next">&gt;</div>
+        <section class="slider snap-slider slider--single">
           <div class="slide"><a href="https://wog.ch">0</a></div>
           <div class="slide"><a href="https://wog.ch">1</a></div>
           <div class="slide"><a href="https://wog.ch">2</a></div>
@@ -174,28 +253,12 @@ const mySlider = new Scroller(".slider", {
           <div class="slide"><img src="https://placekitten.com/400/300" alt="Kitten"/></div>
         </section>
       </div>
-      <h2>Autoplay</h2>
+      <h3>Snap into place (soft)</h3>
+      <p>The same slider as above but with 'snapDragHard' set to false</p>
       <div class="container">
         <div class="button prev">&lt; </div>
         <div class="button next">&gt;</div>
-        <section class="slider slider--partial slider--autoplay" id="slider2">
-          <div class="slide"><a href="https://wog.ch">0</a></div>
-          <div class="slide"><a href="https://wog.ch">1</a></div>
-          <div class="slide"><a href="https://wog.ch">2</a></div>
-          <div class="slide"><a href="https://wog.ch">3</a></div>
-          <div class="slide"><a href="https://wog.ch">4</a></div>
-          <div class="slide"><a href="https://wog.ch">5</a></div>
-          <div class="slide"><a href="https://wog.ch">6</a></div>
-          <div class="slide"><a href="https://wog.ch">7</a></div>
-          <div class="slide"><a href="https://wog.ch">8</a></div>
-          <div class="slide"><a href="https://wog.ch">9</a></div>
-        </section>
-      </div>
-      <h2>Snap into place</h2>
-      <div class="container">
-        <div class="button prev">&lt; </div>
-        <div class="button next">&gt;</div>
-        <section class="slider2">
+        <section class="slider snap-slider-soft slider--single">
           <div class="slide"><a href="https://wog.ch">0</a></div>
           <div class="slide"><a href="https://wog.ch">1</a></div>
           <div class="slide"><a href="https://wog.ch">2</a></div>
@@ -210,6 +273,6 @@ const mySlider = new Scroller(".slider", {
         </section>
       </div>
     </main>
-    <footer> <a target="_blank" href="https://github.com/Juggern4ut/scrollbar_slider">Vertical Slider on Github</a><a target="_blank" href="https://github.com/Juggern4ut">Author</a></footer>
+    <footer> <a target="_blank" href="https://github.com/Juggern4ut/scrollbar_slider">Scrollerer on Github</a><a target="_blank" href="https://github.com/Juggern4ut">Author</a></footer>
   </body>
 </html>
