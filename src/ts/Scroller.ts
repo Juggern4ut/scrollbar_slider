@@ -67,6 +67,13 @@ export default class Scroller {
       return;
     }
 
+    if (this.container.getAttribute("scrollerSlider") === "true") {
+      console.warn(
+        `Slider on ${sel} already initialized! No further actions taken!`
+      );
+      return;
+    }
+
     if (options?.desktopClass && window.ontouchstart === undefined) {
       this.container.classList.add(options.desktopClass);
     }
@@ -133,6 +140,8 @@ export default class Scroller {
         this.setNoScrollableClass(nonScrollClass);
       });
     }
+
+    this.container.setAttribute("scrollerSlider", "true");
   }
 
   /**

@@ -23,6 +23,7 @@
   "devDependencies": {
     "@types/prismjs": "^1.26.0",
     "@types/smoothscroll-polyfill": "^0.3.1",
+    "concurrently": "^7.6.0",
     "pug-cli": "^1.0.0-alpha6",
     "webpack-cli": "^4.9.1"
   }

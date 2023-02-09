@@ -11,6 +11,8 @@ window.onload = function () {
     prismjs_1.default.highlightAll();
     initDefaultSlider();
     initMouseDragSlider();
+    initMouseDragSlider();
+    initMouseDragSlider();
     initMouseDragAlignSlider();
     initAutoplaySlider();
     initSnapSlider();

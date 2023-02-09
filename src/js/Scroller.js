@@ -27,6 +27,10 @@ var Scroller = /** @class */ (function () {
             console.warn("Slider not initialized! Container '".concat(sel, "' not found!"));
             return;
         }
+        if (this.container.getAttribute("scrollerSlider") === "true") {
+            console.warn("Slider on ".concat(sel, " already initialized! No further actions taken!"));
+            return;
+        }
         if ((options === null || options === void 0 ? void 0 : options.desktopClass) && window.ontouchstart === undefined) {
             this.container.classList.add(options.desktopClass);
         }
@@ -82,6 +86,7 @@ var Scroller = /** @class */ (function () {
                 _this.setNoScrollableClass(nonScrollClass_1);
             });
         }
+        this.container.setAttribute("scrollerSlider", "true");
     }
     /**
      * Will check if the slider has in total more slides than visible per page
