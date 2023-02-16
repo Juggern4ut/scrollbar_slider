@@ -51,7 +51,7 @@ export default class Scroller {
   /** Amount of elements to slide using the gotoLeft and gotoRight methods */
   elementsToScroll?: number;
   /** This class will be applied to the container if there are too few slides to scroll the slider */
-  noScrollClass?:string;
+  noScrollClass?: string;
 
   /**
    * Will create a new horizontal slider on the given selector using
@@ -143,7 +143,24 @@ export default class Scroller {
       });
     }
 
+    this.initMutationObserver();
     this.container.setAttribute("scrollerSlider", "true");
+  }
+
+  /**
+   * Initializes a new MutationObserver that is triggered as soon
+   * as the children/slides of the slider get changed from anywhere
+   */
+  private initMutationObserver(): void {
+    var mo = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === "childList") {
+          console.log("mutated");
+          this.setNoScrollableClass();
+        }
+      });
+    });
+    mo.observe(this.container, { childList: true });
   }
 
   /**
@@ -152,7 +169,7 @@ export default class Scroller {
    * @param className The classname to add to the slider if no scrolling can take place
    */
   public setNoScrollableClass(): void {
-    if(!this.noScrollClass) return;
+    if (!this.noScrollClass) return;
     if (!this.isScrollable()) {
       this.container.classList.add(this.noScrollClass);
     } else {

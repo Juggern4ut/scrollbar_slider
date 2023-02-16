@@ -86,8 +86,25 @@ var Scroller = /** @class */ (function () {
                 _this.setNoScrollableClass();
             });
         }
+        this.initMutationObserver();
         this.container.setAttribute("scrollerSlider", "true");
     }
+    /**
+     * Initializes a new MutationObserver that is triggered as soon
+     * as the children/slides of the slider get changed from anywhere
+     */
+    Scroller.prototype.initMutationObserver = function () {
+        var _this = this;
+        var mo = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
+                if (mutation.type === "childList") {
+                    console.log("mutated");
+                    _this.setNoScrollableClass();
+                }
+            });
+        });
+        mo.observe(this.container, { childList: true });
+    };
     /**
      * Will check if the slider has in total more slides than visible per page
      * and will add/remove a class based on that information.
