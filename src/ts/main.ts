@@ -15,8 +15,6 @@ window.onload = () => {
 
   initDefaultSlider();
   initMouseDragSlider();
-  initMouseDragSlider();
-  initMouseDragSlider();
   initMouseDragAlignSlider();
   initAutoplaySlider();
   initSnapSlider();
