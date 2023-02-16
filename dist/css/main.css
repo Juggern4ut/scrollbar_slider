@@ -151,7 +151,7 @@ h2 {
   margin-top: 50px; }
 
 h3 {
-    margin-top: 40px; }
+  margin-top: 40px; }
 
 main {
   max-width: 800px;
@@ -242,6 +242,23 @@ main {
   scrollbar-width: none; }
   .hideScrollbar::-webkit-scrollbar {
     display: none; }
+
+.red-border {
+  outline: 2px solid red; }
+
+.control-button {
+  background-color: #272822;
+  border: none;
+  color: #fff;
+  padding: 5px 20px;
+  border-radius: 4px;
+  margin: 10px 10px 0 0;
+  cursor: pointer;
+  transition: background-color 150ms ease-out;
+  font-size: 18px;
+  font-weight: lighter; }
+  .control-button:hover {
+    background-color: #393a33; }
 
 .bar {
   width: 100%;

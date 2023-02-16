@@ -15,6 +15,7 @@ window.onload = () => {
 
   initDefaultSlider();
   initMouseDragSlider();
+  initNoScrollSlider();
   initMouseDragAlignSlider();
   initAutoplaySlider();
   initSnapSlider();
@@ -41,6 +42,39 @@ const initMouseDragSlider = () => {
     prevPageHandler: prev,
     mouseScrolling: true,
     desktopClass: "hideScrollbar",
+  });
+};
+
+const initNoScrollSlider = () => {
+  const s = document.querySelector(".no-scroll-slider") as HTMLElement;
+  const prev = s?.parentElement?.querySelector(".prev") as HTMLElement;
+  const next = s?.parentElement?.querySelector(".next") as HTMLElement;
+
+  const add = document.querySelector("#add-slide") as HTMLButtonElement;
+  const remove = document.querySelector("#remove-slide") as HTMLButtonElement;
+  
+  const noScrollSlider = new Scroller(s, {
+    nextPageHandler: next,
+    prevPageHandler: prev,
+    mouseScrolling: true,
+    desktopClass: "hideScrollbar",
+    noScrollClass: "red-border",
+  });
+
+  add.addEventListener("click", (e) => {
+    const newNode = document.createElement("div");
+    const newLink = document.createElement("a");
+    newNode.classList.add("slide");
+    newLink.innerHTML = noScrollSlider.container.children.length.toString();
+    newNode.appendChild(newLink);
+    noScrollSlider.container.appendChild(newNode);
+  });
+
+  remove.addEventListener("click", (e) => {
+    if (noScrollSlider.container.children.length <= 1) return;
+    noScrollSlider.container.children[
+      noScrollSlider.container.children.length - 1
+    ].remove();
   });
 };
 

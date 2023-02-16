@@ -55,10 +55,21 @@
   display: flex;
   overflow-x: auto;
 }
+
 .slide{
   flex-grow: 0;
   margin: 0 10px;
   width: calc(100% / 3 - 20px);
+}
+
+/* Hide the scrollbars on desktops if you want to */
+.hideScrollbar {
+   -ms-overflow-style: none;
+   scrollbar-width: none;
+}
+
+.hideScrollbar::-webkit-scrollbar {
+   display: none;
 }</code></pre>
       <h2>Fire it up </h2>
       <p>
@@ -176,6 +187,25 @@ new Scroller(s, {
           <div class="slide"><a href="https://wog.ch">9</a></div>
         </section>
       </div>
+      <h3>Dynamic Scrollable-Class</h3>
+      <p>Pass the noScrollClass option to give the slider a certain class when it is no longer scrollable. This is handy to hide scrolling arrows for example.</p>
+      <pre><code class="language-js">// ...
+new Scroller(s, {
+  nextPageHandler: next,
+  prevPageHandler: prev,
+  mouseScrolling: true,
+  noScrollClass: "red-border",
+});</code></pre>
+      <div class="container">
+        <div class="button prev">&lt; </div>
+        <div class="button next">&gt;</div>
+        <section class="slider no-scroll-slider">
+          <div class="slide"><a href="https://wog.ch">0</a></div>
+          <div class="slide"><a href="https://wog.ch">1</a></div>
+        </section>
+      </div>
+      <button class="control-button" id="add-slide">add Slide</button>
+      <button class="control-button" id="remove-slide">remove Slide</button>
       <h3>Auto align</h3>
       <p>Since mouse scolling allows for free scrolling, we might also want to add the 'autoAlign' option so slides snap into place when the user stops dragging.</p>
       <pre><code class="language-js">// ...

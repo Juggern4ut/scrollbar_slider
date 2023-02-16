@@ -11,6 +11,7 @@ window.onload = function () {
     prismjs_1.default.highlightAll();
     initDefaultSlider();
     initMouseDragSlider();
+    initNoScrollSlider();
     initMouseDragAlignSlider();
     initAutoplaySlider();
     initSnapSlider();
@@ -37,6 +38,34 @@ var initMouseDragSlider = function () {
         prevPageHandler: prev,
         mouseScrolling: true,
         desktopClass: "hideScrollbar",
+    });
+};
+var initNoScrollSlider = function () {
+    var _a, _b;
+    var s = document.querySelector(".no-scroll-slider");
+    var prev = (_a = s === null || s === void 0 ? void 0 : s.parentElement) === null || _a === void 0 ? void 0 : _a.querySelector(".prev");
+    var next = (_b = s === null || s === void 0 ? void 0 : s.parentElement) === null || _b === void 0 ? void 0 : _b.querySelector(".next");
+    var add = document.querySelector("#add-slide");
+    var remove = document.querySelector("#remove-slide");
+    var noScrollSlider = new Scroller_1.default(s, {
+        nextPageHandler: next,
+        prevPageHandler: prev,
+        mouseScrolling: true,
+        desktopClass: "hideScrollbar",
+        noScrollClass: "red-border",
+    });
+    add.addEventListener("click", function (e) {
+        var newNode = document.createElement("div");
+        var newLink = document.createElement("a");
+        newNode.classList.add("slide");
+        newLink.innerHTML = noScrollSlider.container.children.length.toString();
+        newNode.appendChild(newLink);
+        noScrollSlider.container.appendChild(newNode);
+    });
+    remove.addEventListener("click", function (e) {
+        if (noScrollSlider.container.children.length <= 1)
+            return;
+        noScrollSlider.container.children[noScrollSlider.container.children.length - 1].remove();
     });
 };
 var initMouseDragAlignSlider = function () {
