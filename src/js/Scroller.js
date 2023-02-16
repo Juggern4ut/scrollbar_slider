@@ -80,10 +80,10 @@ var Scroller = /** @class */ (function () {
             }
         });
         if (options === null || options === void 0 ? void 0 : options.noScrollClass) {
-            var nonScrollClass_1 = options === null || options === void 0 ? void 0 : options.noScrollClass;
-            this.setNoScrollableClass(nonScrollClass_1);
+            this.noScrollClass = options.noScrollClass;
+            this.setNoScrollableClass();
             window.addEventListener("resize", function () {
-                _this.setNoScrollableClass(nonScrollClass_1);
+                _this.setNoScrollableClass();
             });
         }
         this.container.setAttribute("scrollerSlider", "true");
@@ -93,12 +93,14 @@ var Scroller = /** @class */ (function () {
      * and will add/remove a class based on that information.
      * @param className The classname to add to the slider if no scrolling can take place
      */
-    Scroller.prototype.setNoScrollableClass = function (className) {
+    Scroller.prototype.setNoScrollableClass = function () {
+        if (!this.noScrollClass)
+            return;
         if (!this.isScrollable()) {
-            this.container.classList.add(className);
+            this.container.classList.add(this.noScrollClass);
         }
         else {
-            this.container.classList.remove(className);
+            this.container.classList.remove(this.noScrollClass);
         }
     };
     /**

@@ -50,6 +50,8 @@ export default class Scroller {
   snapDragHard?: boolean;
   /** Amount of elements to slide using the gotoLeft and gotoRight methods */
   elementsToScroll?: number;
+  /** This class will be applied to the container if there are too few slides to scroll the slider */
+  noScrollClass?:string;
 
   /**
    * Will create a new horizontal slider on the given selector using
@@ -134,10 +136,10 @@ export default class Scroller {
     });
 
     if (options?.noScrollClass) {
-      const nonScrollClass = options?.noScrollClass;
-      this.setNoScrollableClass(nonScrollClass);
+      this.noScrollClass = options.noScrollClass;
+      this.setNoScrollableClass();
       window.addEventListener("resize", () => {
-        this.setNoScrollableClass(nonScrollClass);
+        this.setNoScrollableClass();
       });
     }
 
@@ -149,11 +151,12 @@ export default class Scroller {
    * and will add/remove a class based on that information.
    * @param className The classname to add to the slider if no scrolling can take place
    */
-  public setNoScrollableClass(className: string): void {
+  public setNoScrollableClass(): void {
+    if(!this.noScrollClass) return;
     if (!this.isScrollable()) {
-      this.container.classList.add(className);
+      this.container.classList.add(this.noScrollClass);
     } else {
-      this.container.classList.remove(className);
+      this.container.classList.remove(this.noScrollClass);
     }
   }
 
