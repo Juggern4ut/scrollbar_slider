@@ -155,7 +155,6 @@ export default class Scroller {
     var mo = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.type === "childList") {
-          console.log("mutated");
           this.setNoScrollableClass();
         }
       });

@@ -98,7 +98,6 @@ var Scroller = /** @class */ (function () {
         var mo = new MutationObserver(function (mutations) {
             mutations.forEach(function (mutation) {
                 if (mutation.type === "childList") {
-                    console.log("mutated");
                     _this.setNoScrollableClass();
                 }
             });
